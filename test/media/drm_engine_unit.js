@@ -259,6 +259,7 @@ describe('DrmEngine', function() {
       expect(drmEngine.initialized()).toBe(true);
       expect(drmEngine.willSupport('audio/webm')).toBeTruthy();
       expect(drmEngine.willSupport('video/mp4; codecs="fake"')).toBeTruthy();
+      expect(drmEngine.willSupport('video/mp4; codecs="FAKE"')).toBeTruthy();
 
       // Because DrmEngine will err on being too accepting, make sure it will
       // reject something. However, we can only check that it is actually
@@ -689,12 +690,12 @@ describe('DrmEngine', function() {
 
       initAndAttach().then(function() {
         expect(mockMediaKeys.createSession.calls.count()).toBe(3);
-        expect(session1.generateRequest).
-            toHaveBeenCalledWith('cenc', initData1.buffer);
-        expect(session2.generateRequest).
-            toHaveBeenCalledWith('webm', initData2.buffer);
-        expect(session3.generateRequest).
-            toHaveBeenCalledWith('cenc', initData3.buffer);
+        expect(session1.generateRequest)
+            .toHaveBeenCalledWith('cenc', initData1);
+        expect(session2.generateRequest)
+            .toHaveBeenCalledWith('webm', initData2);
+        expect(session3.generateRequest)
+            .toHaveBeenCalledWith('cenc', initData3);
       }).catch(fail).then(done);
     });
 
@@ -716,9 +717,29 @@ describe('DrmEngine', function() {
 
       initAndAttach().then(function() {
         expect(mockMediaKeys.createSession.calls.count()).toBe(1);
-        expect(session1.generateRequest).
-            toHaveBeenCalledWith('cenc', initData1.buffer);
+        expect(session1.generateRequest)
+            .toHaveBeenCalledWith('cenc', initData1);
       }).catch(fail).then(done);
+    });
+
+    // https://github.com/google/shaka-player/issues/2754
+    it('ignores duplicate init data from newInitData', async () => {
+      /** @type {!Uint8Array} */
+      const initData = new Uint8Array(1);
+
+      tweakDrmInfos((drmInfos) => {
+        drmInfos[0].initData =
+            [{initData: initData, initDataType: 'cenc', keyId: 'abc'}];
+      });
+
+      await drmEngine.initForPlayback(
+          manifest.periods[0].variants, manifest.offlineSessionIds);
+      drmEngine.newInitData('cenc', initData);
+      await drmEngine.attach(mockVideo);
+
+      expect(mockMediaKeys.createSession).toHaveBeenCalledTimes(1);
+      expect(session1.generateRequest)
+          .toHaveBeenCalledWith('cenc', initData);
     });
 
     it('uses clearKeys config to override DrmInfo', async () => {
@@ -748,8 +769,8 @@ describe('DrmEngine', function() {
       expect(manifest.periods[0].variants[0].drmInfos[0].keySystem).
           toBe('org.w3.clearkey');
 
-      expect(session.generateRequest).
-          toHaveBeenCalledWith('keyids', jasmine.any(ArrayBuffer));
+      expect(session.generateRequest)
+          .toHaveBeenCalledWith('keyids', jasmine.any(Uint8Array));
 
       let initData = JSON.parse(shaka.util.StringUtils.fromUTF8(
           session.generateRequest.calls.argsFor(0)[1]));
@@ -877,10 +898,10 @@ describe('DrmEngine', function() {
             {initDataType: 'cenc', initData: initData2, keyId: null});
 
         expect(mockMediaKeys.createSession.calls.count()).toBe(2);
-        expect(session1.generateRequest).
-            toHaveBeenCalledWith('webm', initData1.buffer);
-        expect(session2.generateRequest).
-            toHaveBeenCalledWith('cenc', initData2.buffer);
+        expect(session1.generateRequest)
+            .toHaveBeenCalledWith('webm', initData1);
+        expect(session2.generateRequest)
+            .toHaveBeenCalledWith('cenc', initData2);
       });
 
       it('suppresses duplicate initDatas', async () => {
@@ -894,8 +915,8 @@ describe('DrmEngine', function() {
             {initDataType: 'cenc', initData: initData2, keyId: null});
 
         expect(mockMediaKeys.createSession.calls.count()).toBe(1);
-        expect(session1.generateRequest).
-            toHaveBeenCalledWith('webm', initData1.buffer);
+        expect(session1.generateRequest)
+            .toHaveBeenCalledWith('webm', initData1);
       });
 
       it('is ignored when init data is in DrmInfo', async () => {
@@ -2121,5 +2142,15 @@ describe('DrmEngine', function() {
    */
   function keyStatusBatchTime() {
     return shaka.media.DrmEngine.KEY_STATUS_BATCH_TIME_;
+  }
+
+  /**
+   * @param {function(!Array.<shaka.extern.DrmInfo>)} callback
+   */
+  function tweakDrmInfos(callback) {
+    if (manifest.periods[0].variants[0].video.encrypted ||
+        manifest.periods[0].variants[0].audio.encrypted) {
+      callback(manifest.periods[0].variants[0].drmInfos);
+    }
   }
 });

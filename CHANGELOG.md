@@ -1,3 +1,75 @@
+## 2.5.16 (2020-08-25)
+
+Bugfixes:
+  - Fix case sensitivity in KEYID format check in HLS
+    - https://github.com/google/shaka-player/issues/2789
+    - https://github.com/google/shaka-player/pull/2790
+  - Do not assume HDR for HEVC1.2 on Chromecast
+    - https://github.com/google/shaka-player/issues/2813
+  - Recognize "wvtt" codec in HLS WebVTT tracks
+    - https://github.com/google/shaka-player/pull/2778
+  - Fix case sensitivity for DRM content types
+    - https://github.com/google/shaka-player/issues/2799
+    - https://github.com/google/shaka-player/pull/2800
+  - PlayReady only has little-endian key IDs on Edge & IE
+    - https://github.com/google/shaka-player/pull/2801
+  - Fix UI translation of "live" in Chinese
+    - https://github.com/google/shaka-player/issues/2804
+
+Docs:
+  - Improve docs on platform support
+    - https://github.com/google/shaka-player/issues/2783
+    - https://github.com/google/shaka-player/pull/2787
+    - https://github.com/google/shaka-player/pull/2794
+    - https://github.com/google/shaka-player/pull/2795
+  - Add doc on Application-Level Redirects
+
+
+## 2.5.15 (2020-08-12)
+
+Bugfixes:
+  - Fix TTML style inheritance
+  - Fix ordering of cues on IE and Edge
+  - Fix src= playback on WebOS
+    - https://github.com/google/shaka-player/pull/2777
+  - Filter timeline regions by seek range
+    - https://github.com/google/shaka-player/issues/2716
+  - Don't send duplicate license requests
+    - https://github.com/google/shaka-player/issues/2754
+  - Fix data URI parsing when charset present
+  - Fix rendering of TTML nested cues and spacers
+    - https://github.com/google/shaka-player/issues/2760
+
+Docs:
+  - Correct very outdated docs on test.py
+
+
+## 2.5.14 (2020-07-28)
+
+Bugfixes:
+  - Fix missing build/types/core in npm packages
+    - https://github.com/google/shaka-player/issues/2752
+  - Work around stalling playback on Tizen 3
+    - https://github.com/google/shaka-player/issues/2620
+  - Fix hang while shutting down Widevine DRM sessions
+    - https://github.com/google/shaka-player/issues/2741
+  - Fix initial bandwidth estimate on Tizen
+  - Fix src= playback on Tizen 3
+  - Work around less 3.12.0 bug
+  - Append license for language-mapping-list to output
+
+Docs:
+  - Update tutorial for seek bar color changes
+    - https://github.com/google/shaka-player/issues/2708
+  - Add FAQ entry for native HLS playback in Safari
+  - Update tutorials and docs to async/await syntax
+    - https://github.com/google/shaka-player/issues/2544
+    - https://github.com/google/shaka-player/pull/2693
+  - Update tutorials and docs to use modern variable syntax (const/let)
+    - https://github.com/google/shaka-player/issues/2544
+    - https://github.com/google/shaka-player/pull/2692
+
+
 ## 2.5.13 (2020-06-11)
 
 Bugfixes:
