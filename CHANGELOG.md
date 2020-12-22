@@ -1,3 +1,81 @@
+## 2.5.18 (2020-11-12)
+
+Bugfixes:
+  - Fix handling of role-less audio tracks
+    - https://github.com/google/shaka-player/issues/2906
+    - https://github.com/google/shaka-player/issues/2909
+  - Export UI externs
+    - https://github.com/google/shaka-player/issues/2948
+  - Fix hard-coded TTML namespaces
+    - https://github.com/google/shaka-player/issues/2756
+  - Filter out "chapters" tracks during src= playback
+    - https://github.com/google/shaka-player/pull/2960
+  - Fix renaming of UI base class protected members
+    - https://github.com/google/shaka-player/issues/2923
+  - Export FakeEvent for use by UI plugins
+    - https://github.com/google/shaka-player/issues/2923
+  - Recognize mp4a and mp4v extensions in HLS
+  - Support multiple CHARACTERISTICS values in HLS
+    - https://github.com/google/shaka-player/pull/2905
+  - Don't auto-play after seeking while paused in the UI
+    - https://github.com/google/shaka-player/pull/2898
+
+Docs:
+  - Add link to complete list of build categories
+    - https://github.com/google/shaka-player/pull/2934
+  - Update required Node version
+    - https://github.com/google/shaka-player/issues/2913
+  - Correct receiver app IDs in the UI tutorial
+    - https://github.com/google/shaka-player/issues/2926
+
+Demo App:
+  - Remove redundant switch for manifest.dash.ignoreDrmInfo
+
+Misc:
+  - Add mkdir to make all build commands self-contained
+    - https://github.com/google/shaka-player/issues/2973
+    - https://github.com/google/shaka-player/pull/2977
+
+
+## 2.5.17 (2020-10-06)
+
+Bugfixes:
+  - Fix hiding controls on mobile after touch
+    - https://github.com/google/shaka-player/issues/2886
+  - Ignore seek touch events on hidden controls
+    - https://github.com/google/shaka-player/issues/2888
+  - Fix interpretation of DEFAULT and AUTOSELECT in HLS
+    - https://github.com/google/shaka-player/issues/2880
+  - Avoid a race when clearing buffered content
+  - Allow playback of video-only HLS via configuration
+    - https://github.com/google/shaka-player/issues/2868
+  - Make UITextDisplayer CSS-independent
+    - https://github.com/google/shaka-player/issues/2817
+    - https://github.com/google/shaka-player/pull/2819
+  - Remove hard-coded tts:extent namespace in TTML parser
+    - https://github.com/google/shaka-player/issues/2860
+  - Don't apply seek range while content is still loading
+    - https://github.com/google/shaka-player/issues/2848
+    - https://github.com/google/shaka-player/issues/2748
+    - https://github.com/google/shaka-player/pull/2849
+  - Fix Shaka+Cast apps using IndexedDB
+    - https://github.com/google/shaka-player/issues/2850
+  - Permit applications to monkey-patch Date.now
+    - https://github.com/google/shaka-player/pull/2857
+  - Fix detection of Edge Chromium as Edge
+    - https://github.com/google/shaka-player/pull/2855
+  - Fix loading with global "define" set to null
+    - https://github.com/google/shaka-player/issues/2847
+  - Fix missing cues in UITextDisplayer
+  - Fix storing modified init data for offline sessions
+
+Demo App:
+  - Change the menu icon to a settings icon
+
+Docs:
+  - Fix references to built-in CEA 608 support, not available in this branch
+
+
 ## 2.5.16 (2020-08-25)
 
 Bugfixes:
