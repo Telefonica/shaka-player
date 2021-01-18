@@ -591,7 +591,8 @@ shaka.extern.DrmConfiguration;
  *   autoCorrectDrift: boolean,
  *   initialSegmentLimit: number,
  *   ignoreSuggestedPresentationDelay: boolean,
- *   ignoreEmptyAdaptationSet: boolean
+ *   ignoreEmptyAdaptationSet: boolean,
+ *   requestInterval: number 
  * }}
  *
  * @property {string} clockSyncUri
@@ -631,6 +632,9 @@ shaka.extern.DrmConfiguration;
  *   If true will cause DASH parser to ignore
  *   empty <code>AdaptationSet</code> from manifest. Defaults to
  *   <code>false</code> if not provided.
+ * @property {number} requestInterval
+ *   Time in seconds to determine the timeout to request the next live manifest.
+ *   <code>requestInterval</code> from manifest. Defaults to <code>0</code>
  * @exportDoc
  */
 shaka.extern.DashManifestConfiguration;
