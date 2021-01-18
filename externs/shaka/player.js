@@ -592,7 +592,7 @@ shaka.extern.DrmConfiguration;
  *   initialSegmentLimit: number,
  *   ignoreSuggestedPresentationDelay: boolean,
  *   ignoreEmptyAdaptationSet: boolean,
- *   requestInterval: number 
+ *   requestInterval: number
  * }}
  *
  * @property {string} clockSyncUri
