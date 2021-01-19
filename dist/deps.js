@@ -40,7 +40,7 @@ goog.addDependency('../../../lib/media/adaptation_set.js', ['shaka.media.Adaptat
 goog.addDependency('../../../lib/media/adaptation_set_criteria.js', ['shaka.media.AdaptationSetCriteria', 'shaka.media.ExampleBasedCriteria', 'shaka.media.PreferenceBasedCriteria'], ['shaka.media.AdaptationSet']);
 goog.addDependency('../../../lib/media/buffering_observer.js', ['shaka.media.BufferingObserver'], []);
 goog.addDependency('../../../lib/media/closed_caption_parser.js', ['shaka.media.IClosedCaptionParser', 'shaka.media.MuxJSClosedCaptionParser', 'shaka.media.NoopCaptionParser'], []);
-goog.addDependency('../../../lib/media/drm_engine.js', ['shaka.media.DrmEngine'], ['goog.asserts', 'shaka.log', 'shaka.net.NetworkingEngine', 'shaka.util.Error', 'shaka.util.EventManager', 'shaka.util.FairPlayUtils', 'shaka.util.FakeEvent', 'shaka.util.IDestroyable', 'shaka.util.Iterables', 'shaka.util.MapUtils', 'shaka.util.MimeUtils', 'shaka.util.Platform', 'shaka.util.PublicPromise', 'shaka.util.StringUtils', 'shaka.util.Timer', 'shaka.util.Uint8ArrayUtils']);
+goog.addDependency('../../../lib/media/drm_engine.js', ['shaka.media.DrmEngine'], ['goog.asserts', 'shaka.log', 'shaka.media.Transmuxer', 'shaka.net.NetworkingEngine', 'shaka.util.Error', 'shaka.util.EventManager', 'shaka.util.FairPlayUtils', 'shaka.util.FakeEvent', 'shaka.util.IDestroyable', 'shaka.util.Iterables', 'shaka.util.MapUtils', 'shaka.util.MimeUtils', 'shaka.util.Platform', 'shaka.util.PublicPromise', 'shaka.util.StringUtils', 'shaka.util.Timer', 'shaka.util.Uint8ArrayUtils']);
 goog.addDependency('../../../lib/media/gap_jumping_controller.js', ['shaka.media.GapJumpingController'], ['shaka.log', 'shaka.media.StallDetector', 'shaka.media.TimeRangesUtils', 'shaka.util.EventManager', 'shaka.util.FakeEvent', 'shaka.util.IReleasable', 'shaka.util.Timer']);
 goog.addDependency('../../../lib/media/manifest_parser.js', ['shaka.media.ManifestParser'], ['goog.Uri', 'goog.asserts', 'shaka.log', 'shaka.net.NetworkingEngine', 'shaka.util.Error', 'shaka.util.Platform']);
 goog.addDependency('../../../lib/media/media_source_engine.js', ['shaka.media.MediaSourceEngine'], ['goog.asserts', 'shaka.log', 'shaka.media.IClosedCaptionParser', 'shaka.media.TimeRangesUtils', 'shaka.media.Transmuxer', 'shaka.text.TextEngine', 'shaka.util.Error', 'shaka.util.EventManager', 'shaka.util.Functional', 'shaka.util.IDestroyable', 'shaka.util.ManifestParserUtils', 'shaka.util.MimeUtils', 'shaka.util.Platform', 'shaka.util.PublicPromise']);
@@ -88,7 +88,6 @@ goog.addDependency('../../../lib/player.js', ['shaka.Player'], ['goog.asserts', 
 goog.addDependency('../../../lib/polyfill/all.js', ['shaka.polyfill.installAll', 'shaka.polyfill.register'], ['shaka.log']);
 goog.addDependency('../../../lib/polyfill/encryption_scheme.js', ['shaka.polyfill.EncryptionScheme'], ['shaka.polyfill.register']);
 goog.addDependency('../../../lib/polyfill/fullscreen.js', ['shaka.polyfill.Fullscreen'], ['shaka.polyfill.register']);
-goog.addDependency('../../../lib/polyfill/indexed_db.js', ['shaka.polyfill.IndexedDB'], ['goog.asserts', 'shaka.log', 'shaka.polyfill.register']);
 goog.addDependency('../../../lib/polyfill/input_event.js', ['shaka.polyfill.InputEvent'], ['shaka.log', 'shaka.polyfill.register']);
 goog.addDependency('../../../lib/polyfill/languages.js', ['shaka.polyfill.Languages'], ['shaka.polyfill.register']);
 goog.addDependency('../../../lib/polyfill/mathround.js', ['shaka.polyfill.MathRound'], ['shaka.log', 'shaka.polyfill.register']);
@@ -166,7 +165,7 @@ goog.addDependency('../../../ui/element.js', ['shaka.ui.Element'], ['shaka.util.
 goog.addDependency('../../../ui/enums.js', ['shaka.ui.Enums'], []);
 goog.addDependency('../../../ui/fast_forward_button.js', ['shaka.ui.FastForwardButton'], ['shaka.ui.Element', 'shaka.ui.Locales', 'shaka.ui.Localization', 'shaka.util.Dom']);
 goog.addDependency('../../../ui/fullscreen_button.js', ['shaka.ui.FullscreenButton'], ['shaka.ui.Element', 'shaka.ui.Enums', 'shaka.ui.Locales', 'shaka.ui.Localization', 'shaka.util.Dom']);
-goog.addDependency('../../../ui/language_utils.js', ['shaka.ui.LanguageUtils'], ['mozilla.LanguageMapping', 'shaka.util.Dom']);
+goog.addDependency('../../../ui/language_utils.js', ['shaka.ui.LanguageUtils'], ['mozilla.LanguageMapping', 'shaka.ui.Overlay.TrackLabelFormat', 'shaka.util.Dom']);
 goog.addDependency('../../../ui/localization.js', ['shaka.ui.Localization', 'shaka.ui.Localization.ConflictResolution'], ['shaka.util.FakeEvent', 'shaka.util.FakeEventTarget', 'shaka.util.Iterables', 'shaka.util.LanguageUtils']);
 goog.addDependency('../../../ui/mute_button.js', ['shaka.ui.MuteButton'], ['shaka.ui.Element', 'shaka.ui.Enums', 'shaka.ui.Locales', 'shaka.ui.Localization', 'shaka.util.Dom']);
 goog.addDependency('../../../ui/overflow_menu.js', ['shaka.ui.OverflowMenu'], ['goog.asserts', 'shaka.log', 'shaka.ui.Constants', 'shaka.ui.Controls', 'shaka.ui.Element', 'shaka.ui.Enums', 'shaka.ui.Locales', 'shaka.ui.Localization', 'shaka.ui.Utils', 'shaka.util.Dom']);
@@ -182,6 +181,6 @@ goog.addDependency('../../../ui/small_play_button.js', ['shaka.ui.SmallPlayButto
 goog.addDependency('../../../ui/spacer.js', ['shaka.ui.Spacer'], ['shaka.ui.Element', 'shaka.util.Dom']);
 goog.addDependency('../../../ui/text_displayer.js', ['shaka.ui.TextDisplayer'], ['shaka.util.Dom']);
 goog.addDependency('../../../ui/text_selection.js', ['shaka.ui.TextSelection'], ['shaka.ui.Enums', 'shaka.ui.LanguageUtils', 'shaka.ui.Locales', 'shaka.ui.Localization', 'shaka.ui.OverflowMenu', 'shaka.ui.SettingsMenu', 'shaka.util.Dom']);
-goog.addDependency('../../../ui/ui.js', ['shaka.ui.Overlay'], ['goog.asserts', 'shaka.Deprecate', 'shaka.polyfill.installAll', 'shaka.ui.Controls', 'shaka.ui.TextDisplayer', 'shaka.util.Platform']);
+goog.addDependency('../../../ui/ui.js', ['shaka.ui.Overlay', 'shaka.ui.Overlay.TrackLabelFormat'], ['goog.asserts', 'shaka.Deprecate', 'shaka.polyfill.installAll', 'shaka.ui.Controls', 'shaka.ui.TextDisplayer', 'shaka.util.Platform']);
 goog.addDependency('../../../ui/ui_utils.js', ['shaka.ui.Utils'], ['goog.asserts']);
 goog.addDependency('../../../ui/volume_bar.js', ['shaka.ui.VolumeBar'], ['shaka.ui.Constants', 'shaka.ui.Locales', 'shaka.ui.Localization', 'shaka.ui.RangeElement']);

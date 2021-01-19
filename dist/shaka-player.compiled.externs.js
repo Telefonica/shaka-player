@@ -44,43 +44,6 @@ shaka.util.StringUtils = {};
 shaka.util.Uint8ArrayUtils = {};
 
 /**
- * A timer allows a single function to be executed at a later time or at
- * regular intervals.
- * @final
- */
-shaka.util.Timer = class {
-  /**
-   * Create a new timer. A timer is committed to a single callback function.
-   * While there is no technical reason to do this, it is far easier to
-   * understand and use timers when they are connected to one functional idea.
-   * @param {function()} onTick
-   */
-  constructor(onTick) {}
-  /**
-   * Have the timer call |onTick| now.
-   * @return {!shaka.util.Timer}
-   */
-  tickNow() {}
-  /**
-   * Have the timer call |onTick| after |seconds| has elapsed unless |stop| is
-   * called first.
-   * @param {number} seconds
-   * @return {!shaka.util.Timer}
-   */
-  tickAfter(seconds) {}
-  /**
-   * Have the timer call |onTick| every |seconds| until |stop| is called.
-   * @param {number} seconds
-   * @return {!shaka.util.Timer}
-   */
-  tickEvery(seconds) {}
-  /**
-   * Stop the timer and clear the previous behaviour. The timer is still usable
-   * after calling |stop|.
-   */
-  stop() {}
-};
-/**
  * Describes an error that happened.
  * @description
  * This uses numerical codes to describe which error happened.
@@ -259,6 +222,141 @@ shaka.util.Error.Code = {
   'MISSING_STORAGE_CELL': 9013
 };
 /**
+ * An interface to standardize how objects are destroyed.
+ * @interface
+ */
+shaka.util.IDestroyable = class {
+  /**
+   * Request that this object be destroyed, releasing all resources and shutting
+   * down all operations. Returns a Promise which is resolved when destruction
+   * is complete. This Promise should never be rejected.
+   * @return {!Promise}
+   */
+  destroy() {}
+};
+/**
+ * Creates a string from the given buffer as UTF-8 encoding.
+ * @param {?BufferSource} data
+ * @return {string}
+ * @throws {shaka.util.Error}
+ */
+shaka.util.StringUtils.fromUTF8 = function(data) {};
+/**
+ * Creates a string from the given buffer as UTF-16 encoding.
+ * @param {?BufferSource} data
+ * @param {boolean} littleEndian true to read little endian, false to read big.
+ * @param {boolean=} noThrow true to avoid throwing in cases where we may
+ *     expect invalid input.  If noThrow is true and the data has an odd length,
+ *     it will be truncated.
+ * @return {string}
+ * @throws {shaka.util.Error}
+ */
+shaka.util.StringUtils.fromUTF16 = function(data, littleEndian, noThrow) {};
+/**
+ * Creates a string from the given buffer, auto-detecting the encoding that is
+ * being used.  If it cannot detect the encoding, it will throw an exception.
+ * @param {?BufferSource} data
+ * @return {string}
+ * @throws {shaka.util.Error}
+ */
+shaka.util.StringUtils.fromBytesAutoDetect = function(data) {};
+/**
+ * Creates a ArrayBuffer from the given string, converting to UTF-8 encoding.
+ * @param {string} str
+ * @return {!ArrayBuffer}
+ */
+shaka.util.StringUtils.toUTF8 = function(str) {};
+/**
+ * Creates a ArrayBuffer from the given string, converting to UTF-16 encoding.
+ * @param {string} str
+ * @param {boolean} littleEndian
+ * @return {!ArrayBuffer}
+ */
+shaka.util.StringUtils.toUTF16 = function(str, littleEndian) {};
+/**
+ * Resets the fromCharCode method's implementation.
+ * For debug use.
+ */
+shaka.util.StringUtils.resetFromCharCode = function() {};
+/**
+ * Convert a Uint8Array to a base64 string.  The output will always use the
+ * alternate encoding/alphabet also known as "base64url".
+ * @param {!Uint8Array} arr
+ * @param {boolean=} padding If true, pad the output with equals signs.
+ *   Defaults to true.
+ * @return {string}
+ */
+shaka.util.Uint8ArrayUtils.toBase64 = function(arr, padding) {};
+/**
+ * Convert a base64 string to a Uint8Array.  Accepts either the standard
+ * alphabet or the alternate "base64url" alphabet.
+ * @param {string} str
+ * @return {!Uint8Array}
+ */
+shaka.util.Uint8ArrayUtils.fromBase64 = function(str) {};
+/**
+ * Convert a hex string to a Uint8Array.
+ * @param {string} str
+ * @return {!Uint8Array}
+ */
+shaka.util.Uint8ArrayUtils.fromHex = function(str) {};
+/**
+ * Convert a Uint8Array to a hex string.
+ * @param {!Uint8Array} arr
+ * @return {string}
+ */
+shaka.util.Uint8ArrayUtils.toHex = function(arr) {};
+/**
+ * Compare two Uint8Arrays for equality.
+ * @param {Uint8Array} arr1
+ * @param {Uint8Array} arr2
+ * @return {boolean}
+ */
+shaka.util.Uint8ArrayUtils.equal = function(arr1, arr2) {};
+/**
+ * Concatenate Uint8Arrays.
+ * @param {...!Uint8Array} varArgs
+ * @return {!Uint8Array}
+ */
+shaka.util.Uint8ArrayUtils.concat = function(...varArgs) {};
+/**
+ * A timer allows a single function to be executed at a later time or at
+ * regular intervals.
+ * @final
+ */
+shaka.util.Timer = class {
+  /**
+   * Create a new timer. A timer is committed to a single callback function.
+   * While there is no technical reason to do this, it is far easier to
+   * understand and use timers when they are connected to one functional idea.
+   * @param {function()} onTick
+   */
+  constructor(onTick) {}
+  /**
+   * Have the timer call |onTick| now.
+   * @return {!shaka.util.Timer}
+   */
+  tickNow() {}
+  /**
+   * Have the timer call |onTick| after |seconds| has elapsed unless |stop| is
+   * called first.
+   * @param {number} seconds
+   * @return {!shaka.util.Timer}
+   */
+  tickAfter(seconds) {}
+  /**
+   * Have the timer call |onTick| every |seconds| until |stop| is called.
+   * @param {number} seconds
+   * @return {!shaka.util.Timer}
+   */
+  tickEvery(seconds) {}
+  /**
+   * Stop the timer and clear the previous behaviour. The timer is still usable
+   * after calling |stop|.
+   */
+  stop() {}
+};
+/**
  * A utility to wrap abortable operations.  Note that these are not cancelable.
  * Cancelation implies undoing what has been done so far, whereas aborting only
  * means that further work is stopped.
@@ -345,6 +443,15 @@ shaka.util.AbortableOperation = class {
  */
 shaka.util.AbortableOperation.prototype.promise;
 /**
+ * Create an Event work-alike object based on the provided dictionary.
+ * The event should contain all of the same properties from the dict.
+ * @param {string} type
+ * @param {Object=} dict
+ * @constructor
+ * @extends {Event}
+ */
+shaka.util.FakeEvent = function(type, dict) {};
+/**
  * A work-alike for EventTarget.  Only DOM elements may be true EventTargets,
  * but this can be used as a base class to provide event dispatch to non-DOM
  * classes.  Only FakeEvents should be dispatched.
@@ -383,19 +490,6 @@ shaka.util.FakeEventTarget.prototype.removeEventListener = function(type, listen
  * @override
  */
 shaka.util.FakeEventTarget.prototype.dispatchEvent = function(event) {};
-/**
- * An interface to standardize how objects are destroyed.
- * @interface
- */
-shaka.util.IDestroyable = class {
-  /**
-   * Request that this object be destroyed, releasing all resources and shutting
-   * down all operations. Returns a Promise which is resolved when destruction
-   * is complete. This Promise should never be rejected.
-   * @return {!Promise}
-   */
-  destroy() {}
-};
 /**
  * NetworkingEngine wraps all networking operations.  This accepts plugins that
  * handle the actual request.  A plugin is registered using registerScheme.
@@ -632,91 +726,6 @@ shaka.util.FairPlayUtils = class {
    */
   static initDataTransform(initData, contentId, cert) {}
 };
-/**
- * Creates a string from the given buffer as UTF-8 encoding.
- * @param {?BufferSource} data
- * @return {string}
- * @throws {shaka.util.Error}
- */
-shaka.util.StringUtils.fromUTF8 = function(data) {};
-/**
- * Creates a string from the given buffer as UTF-16 encoding.
- * @param {?BufferSource} data
- * @param {boolean} littleEndian true to read little endian, false to read big.
- * @param {boolean=} noThrow true to avoid throwing in cases where we may
- *     expect invalid input.  If noThrow is true and the data has an odd length,
- *     it will be truncated.
- * @return {string}
- * @throws {shaka.util.Error}
- */
-shaka.util.StringUtils.fromUTF16 = function(data, littleEndian, noThrow) {};
-/**
- * Creates a string from the given buffer, auto-detecting the encoding that is
- * being used.  If it cannot detect the encoding, it will throw an exception.
- * @param {?BufferSource} data
- * @return {string}
- * @throws {shaka.util.Error}
- */
-shaka.util.StringUtils.fromBytesAutoDetect = function(data) {};
-/**
- * Creates a ArrayBuffer from the given string, converting to UTF-8 encoding.
- * @param {string} str
- * @return {!ArrayBuffer}
- */
-shaka.util.StringUtils.toUTF8 = function(str) {};
-/**
- * Creates a ArrayBuffer from the given string, converting to UTF-16 encoding.
- * @param {string} str
- * @param {boolean} littleEndian
- * @return {!ArrayBuffer}
- */
-shaka.util.StringUtils.toUTF16 = function(str, littleEndian) {};
-/**
- * Resets the fromCharCode method's implementation.
- * For debug use.
- */
-shaka.util.StringUtils.resetFromCharCode = function() {};
-/**
- * Convert a Uint8Array to a base64 string.  The output will always use the
- * alternate encoding/alphabet also known as "base64url".
- * @param {!Uint8Array} arr
- * @param {boolean=} padding If true, pad the output with equals signs.
- *   Defaults to true.
- * @return {string}
- */
-shaka.util.Uint8ArrayUtils.toBase64 = function(arr, padding) {};
-/**
- * Convert a base64 string to a Uint8Array.  Accepts either the standard
- * alphabet or the alternate "base64url" alphabet.
- * @param {string} str
- * @return {!Uint8Array}
- */
-shaka.util.Uint8ArrayUtils.fromBase64 = function(str) {};
-/**
- * Convert a hex string to a Uint8Array.
- * @param {string} str
- * @return {!Uint8Array}
- */
-shaka.util.Uint8ArrayUtils.fromHex = function(str) {};
-/**
- * Convert a Uint8Array to a hex string.
- * @param {!Uint8Array} arr
- * @return {string}
- */
-shaka.util.Uint8ArrayUtils.toHex = function(arr) {};
-/**
- * Compare two Uint8Arrays for equality.
- * @param {Uint8Array} arr1
- * @param {Uint8Array} arr2
- * @return {boolean}
- */
-shaka.util.Uint8ArrayUtils.equal = function(arr1, arr2) {};
-/**
- * Concatenate Uint8Arrays.
- * @param {...!Uint8Array} varArgs
- * @return {!Uint8Array}
- */
-shaka.util.Uint8ArrayUtils.concat = function(...varArgs) {};
 /**
  * Creates a Cue object.
  * @param {number} startTime
