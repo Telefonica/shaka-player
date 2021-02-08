@@ -55,6 +55,7 @@ shaka.util.FakeEvent = class {
  * @implements {EventTarget}
  */
 shaka.util.FakeEventTarget = class {
+  /** */
   constructor() {}
   /**
    * Add an event listener to this object.
@@ -357,6 +358,7 @@ shaka.util.Error.Code = {
   'VIDEO_ERROR': 3016,
   'QUOTA_EXCEEDED_ERROR': 3017,
   'TRANSMUXING_FAILED': 3018,
+  'CONTENT_TRANSFORMATION_FAILED': 3019,
   'UNABLE_TO_GUESS_MANIFEST_TYPE': 4000,
   'DASH_INVALID_XML': 4001,
   'DASH_NO_SEGMENT_INFO': 4002,
@@ -836,6 +838,7 @@ shaka.util.IReleasable = class {
  * @implements {shaka.util.IReleasable}
  */
 shaka.util.EventManager = class {
+  /** */
   constructor() {}
   /**
    * Detaches all event listeners.
@@ -910,6 +913,172 @@ shaka.util.FairPlayUtils = class {
    */
   static initDataTransform(initData, contentId, cert) {}
 };
+/**
+  * @summary DataViewReader abstracts a DataView object.
+  */
+shaka.util.DataViewReader = class {
+  /**
+   * @param {BufferSource} data
+   * @param {shaka.util.DataViewReader.Endianness} endianness The endianness.
+   */
+  constructor(data, endianness) {}
+  /**
+   * @return {boolean} True if the reader has more data, false otherwise.
+   */
+  hasMoreData() {}
+  /**
+   * Gets the current byte position.
+   * @return {number}
+   */
+  getPosition() {}
+  /**
+   * Gets the byte length of the DataView.
+   * @return {number}
+   */
+  getLength() {}
+  /**
+   * Reads an unsigned 8 bit integer, and advances the reader.
+   * @return {number} The integer.
+   */
+  readUint8() {}
+  /**
+   * Reads an unsigned 16 bit integer, and advances the reader.
+   * @return {number} The integer.
+   */
+  readUint16() {}
+  /**
+   * Reads an unsigned 32 bit integer, and advances the reader.
+   * @return {number} The integer.
+   */
+  readUint32() {}
+  /**
+   * Reads a signed 32 bit integer, and advances the reader.
+   * @return {number} The integer.
+   */
+  readInt32() {}
+  /**
+   * Reads an unsigned 64 bit integer, and advances the reader.
+   * @return {number} The integer.
+   */
+  readUint64() {}
+  /**
+   * Reads the specified number of raw bytes.
+   * @param {number} bytes The number of bytes to read.
+   * @return {!Uint8Array}
+   */
+  readBytes(bytes) {}
+  /**
+   * Skips the specified number of bytes.
+   * @param {number} bytes The number of bytes to skip.
+   */
+  skip(bytes) {}
+  /**
+   * Rewinds the specified number of bytes.
+   * @param {number} bytes The number of bytes to rewind.
+   */
+  rewind(bytes) {}
+  /**
+   * Seeks to a specified position.
+   * @param {number} position The desired byte position within the DataView.
+   */
+  seek(position) {}
+  /**
+   * Keeps reading until it reaches a byte that equals to zero.  The text is
+   * assumed to be UTF-8.
+   * @return {string}
+   */
+  readTerminatedString() {}
+};
+/**
+ * Endianness.
+ * @enum {number}
+ */
+shaka.util.DataViewReader.Endianness = {
+  'BIG_ENDIAN': 0,
+  'LITTLE_ENDIAN': 1
+};
+/**
+ */
+shaka.util.Mp4Parser = class {
+  /** */
+  constructor() {}
+  /**
+   * Declare a box type as a Box.
+   * @param {string} type
+   * @param {!shaka.util.Mp4Parser.CallbackType} definition
+   * @return {!shaka.util.Mp4Parser}
+   */
+  box(type, definition) {}
+  /**
+   * Declare a box type as a Full Box.
+   * @param {string} type
+   * @param {!shaka.util.Mp4Parser.CallbackType} definition
+   * @return {!shaka.util.Mp4Parser}
+   */
+  fullBox(type, definition) {}
+  /**
+   * Stop parsing.  Useful for extracting information from partial segments and
+   * avoiding an out-of-bounds error once you find what you are looking for.
+   */
+  stop() {}
+  /**
+   * Parse the given data using the added callbacks.
+   * @param {!BufferSource} data
+   * @param {boolean=} partialOkay If true, allow reading partial payloads
+   *   from some boxes. If the goal is a child box, we can sometimes find it
+   *   without enough data to find all child boxes.
+   */
+  parse(data, partialOkay) {}
+  /**
+   * Parse the next box on the current level.
+   * @param {number} absStart The absolute start position in the original
+   *   byte array.
+   * @param {!shaka.util.DataViewReader} reader
+   * @param {boolean=} partialOkay If true, allow reading partial payloads
+   *   from some boxes. If the goal is a child box, we can sometimes find it
+   *   without enough data to find all child boxes.
+   */
+  parseNext(absStart, reader, partialOkay) {}
+  /**
+   * A callback that tells the Mp4 parser to treat the body of a box as a series
+   * of boxes. The number of boxes is limited by the size of the parent box.
+   * @param {!shaka.extern.ParsedBox} box
+   */
+  static children(box) {}
+  /**
+   * A callback that tells the Mp4 parser to treat the body of a box as a sample
+   * description. A sample description box has a fixed number of children. The
+   * number of children is represented by a 4 byte unsigned integer. Each child
+   * is a box.
+   * @param {!shaka.extern.ParsedBox} box
+   */
+  static sampleDescription(box) {}
+  /**
+   * Create a callback that tells the Mp4 parser to treat the body of a box as a
+   * binary blob and to parse the body's contents using the provided callback.
+   * @param {function(!Uint8Array)} callback
+   * @return {!shaka.util.Mp4Parser.CallbackType}
+   */
+  static allData(callback) {}
+  /**
+   * Convert an integer type from a box into an ascii string name.
+   * Useful for debugging.
+   * @param {number} type The type of the box, a uint32.
+   * @return {string}
+   */
+  static typeToString(type) {}
+  /**
+   * Find the header size of the box.
+   * Useful for modifying boxes in place or finding the exact offset of a field.
+   * @param {shaka.extern.ParsedBox} box
+   * @return {number}
+   */
+  static headerSize(box) {}
+};
+/**
+ * @typedef {function(!shaka.extern.ParsedBox)}
+ */
+shaka.util.Mp4Parser.CallbackType;
 /**
  * @implements {shaka.extern.Cue}
  */
@@ -1141,6 +1310,7 @@ shaka.text.Cue.textDecoration = {
  * @struct
  */
 shaka.text.CueRegion = class {
+  /** */
   constructor() {}
 };
 /**
@@ -1243,6 +1413,7 @@ shaka.text.TextEngine = class {
  * @implements {shaka.extern.AbrManager}
  */
 shaka.abr.SimpleAbrManager = class {
+  /** */
   constructor() {}
   /**
    * @override
@@ -1693,6 +1864,7 @@ shaka.media.SegmentIterator = class {
  * @implements {Iterable.<!shaka.media.SegmentReference>}
  */
 shaka.media.MetaSegmentIndex = class extends shaka.media.SegmentIndex {
+  /** */
   constructor() {}
   /**
    * @override
@@ -1727,164 +1899,6 @@ shaka.media.MetaSegmentIndex = class extends shaka.media.SegmentIndex {
    */
   updateEvery(interval, updateCallback) {}
 };
-/**
-  * @summary DataViewReader abstracts a DataView object.
-  */
-shaka.util.DataViewReader = class {
-  /**
-   * @param {BufferSource} data
-   * @param {shaka.util.DataViewReader.Endianness} endianness The endianness.
-   */
-  constructor(data, endianness) {}
-  /**
-   * @return {boolean} True if the reader has more data, false otherwise.
-   */
-  hasMoreData() {}
-  /**
-   * Gets the current byte position.
-   * @return {number}
-   */
-  getPosition() {}
-  /**
-   * Gets the byte length of the DataView.
-   * @return {number}
-   */
-  getLength() {}
-  /**
-   * Reads an unsigned 8 bit integer, and advances the reader.
-   * @return {number} The integer.
-   */
-  readUint8() {}
-  /**
-   * Reads an unsigned 16 bit integer, and advances the reader.
-   * @return {number} The integer.
-   */
-  readUint16() {}
-  /**
-   * Reads an unsigned 32 bit integer, and advances the reader.
-   * @return {number} The integer.
-   */
-  readUint32() {}
-  /**
-   * Reads a signed 32 bit integer, and advances the reader.
-   * @return {number} The integer.
-   */
-  readInt32() {}
-  /**
-   * Reads an unsigned 64 bit integer, and advances the reader.
-   * @return {number} The integer.
-   */
-  readUint64() {}
-  /**
-   * Reads the specified number of raw bytes.
-   * @param {number} bytes The number of bytes to read.
-   * @return {!Uint8Array}
-   */
-  readBytes(bytes) {}
-  /**
-   * Skips the specified number of bytes.
-   * @param {number} bytes The number of bytes to skip.
-   */
-  skip(bytes) {}
-  /**
-   * Rewinds the specified number of bytes.
-   * @param {number} bytes The number of bytes to rewind.
-   */
-  rewind(bytes) {}
-  /**
-   * Seeks to a specified position.
-   * @param {number} position The desired byte position within the DataView.
-   */
-  seek(position) {}
-  /**
-   * Keeps reading until it reaches a byte that equals to zero.  The text is
-   * assumed to be UTF-8.
-   * @return {string}
-   */
-  readTerminatedString() {}
-};
-/**
- * Endianness.
- * @enum {number}
- */
-shaka.util.DataViewReader.Endianness = {
-  'BIG_ENDIAN': 0,
-  'LITTLE_ENDIAN': 1
-};
-/**
- */
-shaka.util.Mp4Parser = class {
-  constructor() {}
-  /**
-   * Declare a box type as a Box.
-   * @param {string} type
-   * @param {!shaka.util.Mp4Parser.CallbackType} definition
-   * @return {!shaka.util.Mp4Parser}
-   */
-  box(type, definition) {}
-  /**
-   * Declare a box type as a Full Box.
-   * @param {string} type
-   * @param {!shaka.util.Mp4Parser.CallbackType} definition
-   * @return {!shaka.util.Mp4Parser}
-   */
-  fullBox(type, definition) {}
-  /**
-   * Stop parsing.  Useful for extracting information from partial segments and
-   * avoiding an out-of-bounds error once you find what you are looking for.
-   */
-  stop() {}
-  /**
-   * Parse the given data using the added callbacks.
-   * @param {!BufferSource} data
-   * @param {boolean=} partialOkay If true, allow reading partial payloads
-   *   from some boxes. If the goal is a child box, we can sometimes find it
-   *   without enough data to find all child boxes.
-   */
-  parse(data, partialOkay) {}
-  /**
-   * Parse the next box on the current level.
-   * @param {number} absStart The absolute start position in the original
-   *   byte array.
-   * @param {!shaka.util.DataViewReader} reader
-   * @param {boolean=} partialOkay If true, allow reading partial payloads
-   *   from some boxes. If the goal is a child box, we can sometimes find it
-   *   without enough data to find all child boxes.
-   */
-  parseNext(absStart, reader, partialOkay) {}
-  /**
-   * A callback that tells the Mp4 parser to treat the body of a box as a series
-   * of boxes. The number of boxes is limited by the size of the parent box.
-   * @param {!shaka.extern.ParsedBox} box
-   */
-  static children(box) {}
-  /**
-   * A callback that tells the Mp4 parser to treat the body of a box as a sample
-   * description. A sample description box has a fixed number of children. The
-   * number of children is represented by a 4 byte unsigned integer. Each child
-   * is a box.
-   * @param {!shaka.extern.ParsedBox} box
-   */
-  static sampleDescription(box) {}
-  /**
-   * Create a callback that tells the Mp4 parser to treat the body of a box as a
-   * binary blob and to parse the body's contents using the provided callback.
-   * @param {function(!Uint8Array)} callback
-   * @return {!shaka.util.Mp4Parser.CallbackType}
-   */
-  static allData(callback) {}
-  /**
-   * Convert an integer type from a box into an ascii string name.
-   * Useful for debugging.
-   * @param {number} type The type of the box, a uint32.
-   * @return {string}
-   */
-  static typeToString(type) {}
-};
-/**
- * @typedef {function(!shaka.extern.ParsedBox)}
- */
-shaka.util.Mp4Parser.CallbackType;
 /**
  * @summary
  * This defines the default text displayer plugin. An instance of this
@@ -2495,6 +2509,10 @@ shaka.ads.ClientSideAd = class {
   /**
    * @override
    */
+  getMinSuggestedDuration() {}
+  /**
+   * @override
+   */
   getRemainingTime() {}
   /**
    * @override
@@ -2573,6 +2591,10 @@ shaka.ads.ServerSideAd = class {
   /**
    * @override
    */
+  getMinSuggestedDuration() {}
+  /**
+   * @override
+   */
   getRemainingTime() {}
   /**
    * @override
@@ -2640,6 +2662,7 @@ shaka.ads.ServerSideAd = class {
  * @implements {shaka.extern.IAdManager}
  */
 shaka.ads.AdManager = class extends shaka.util.FakeEventTarget {
+  /** */
   constructor() {}
   /**
    * @override
@@ -3105,6 +3128,7 @@ shaka.net.HttpXHRPlugin = class {
  * @implements {shaka.util.IDestroyable}
  */
 shaka.offline.StorageMuxer = class {
+  /** */
   constructor() {}
   /**
    * Free all resources used by the muxer, mechanisms, and cells. This should
@@ -3297,6 +3321,7 @@ shaka.text.TtmlTextParser = class {
  * @implements {shaka.extern.TextParser}
  */
 shaka.text.Mp4TtmlParser = class {
+  /** */
   constructor() {}
   /**
    * @override
@@ -3324,6 +3349,7 @@ shaka.text.VttTextParser = class {
  * @implements {shaka.extern.TextParser}
  */
 shaka.text.Mp4VttParser = class {
+  /** */
   constructor() {}
   /**
    * @override

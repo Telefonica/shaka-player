@@ -574,6 +574,7 @@ declare namespace shaka.ads {
     constructor (imaAd : google.ima.Ad , imaAdManager : google.ima.AdsManager ) ;
     canSkipNow ( ) : any ;
     getDuration ( ) : any ;
+    getMinSuggestedDuration ( ) : any ;
     getPositionInSequence ( ) : any ;
     getRemainingTime ( ) : any ;
     getSequenceLength ( ) : any ;
@@ -598,6 +599,7 @@ declare namespace shaka.ads {
     constructor (imaAd : google.ima.dai.api.Ad | null , video : HTMLMediaElement | null ) ;
     canSkipNow ( ) : any ;
     getDuration ( ) : any ;
+    getMinSuggestedDuration ( ) : any ;
     getPositionInSequence ( ) : any ;
     getRemainingTime ( ) : any ;
     getSequenceLength ( ) : any ;
@@ -1768,6 +1770,7 @@ declare namespace shaka.util.Error {
     CAST_CANCELED_BY_USER = 8004.0 ,
     CAST_CONNECTION_TIMED_OUT = 8005.0 ,
     CAST_RECEIVER_APP_UNAVAILABLE = 8006.0 ,
+    CONTENT_TRANSFORMATION_FAILED = 3019.0 ,
     CONTENT_UNSUPPORTED_BY_BROWSER = 4032.0 ,
     CS_AD_MANAGER_NOT_INITIALIZED = 10001.0 ,
     CS_IMA_SDK_MISSING = 10000.0 ,
@@ -2051,6 +2054,11 @@ declare namespace shaka.util {
      * of boxes. The number of boxes is limited by the size of the parent box.
      */
     static children (box : shaka.extern.ParsedBox ) : any ;
+    /**
+     * Find the header size of the box.
+     * Useful for modifying boxes in place or finding the exact offset of a field.
+     */
+    static headerSize (box : shaka.extern.ParsedBox ) : number ;
     /**
      * A callback that tells the Mp4 parser to treat the body of a box as a sample
      * description. A sample description box has a fixed number of children. The
@@ -2739,6 +2747,11 @@ declare namespace shaka.extern {
   interface IAd extends shaka.util.IReleasable {
     canSkipNow ( ) : boolean ;
     getDuration ( ) : number ;
+    /**
+     * Gets the minimum suggested duration.  Defaults to being equivalent to
+     * getDuration() for server-side ads.
+     */
+    getMinSuggestedDuration ( ) : number ;
     getPositionInSequence ( ) : number ;
     getRemainingTime ( ) : number ;
     getSequenceLength ( ) : number ;
@@ -2905,7 +2918,7 @@ declare namespace shaka.extern.ManifestParser {
 }
 // Generated from /home/jobispo/dev/Core18/stv-shaka-player/externs/shaka/mp4_parser.js
 declare namespace shaka.extern {
-  type ParsedBox = { flags : number | null , parser : shaka.util.Mp4Parser , partialOkay : boolean , reader : shaka.util.DataViewReader , size : number , start : number , version : number | null } ;
+  type ParsedBox = { flags : number | null , has64BitSize : boolean , parser : shaka.util.Mp4Parser , partialOkay : boolean , reader : shaka.util.DataViewReader , size : number , start : number , version : number | null } ;
 }
 // Generated from /home/jobispo/dev/Core18/stv-shaka-player/externs/shaka/net.js
 declare namespace shaka.extern {
