@@ -1335,6 +1335,13 @@ shaka.util.Mp4Parser.allData = function(callback) {};
  */
 shaka.util.Mp4Parser.typeToString = function(type) {};
 /**
+ * Find the header size of the box.
+ * Useful for modifying boxes in place or finding the exact offset of a field.
+ * @param {shaka.extern.ParsedBox} box
+ * @return {number}
+ */
+shaka.util.Mp4Parser.headerSize = function(box) {};
+/**
  * Creates an InitSegmentReference, which provides the location to an
  * initialization segment.
  * @param {function():!Array.<string>} uris A function that creates the URIs of
