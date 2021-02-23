@@ -804,7 +804,7 @@ declare namespace shaka.media {
     merge (references : shaka.media.SegmentReference [] ) : any ;
     offset (offset : number ) : any ;
     release ( ) : any ;
-    updateEvery (interval : number , updateCallback : ( ) => ( shaka.media.SegmentReference | null ) [] ) : any ;
+    updateEvery (interval : number , updateCallback : ( ) => ( shaka.media.SegmentReference | null ) [] | null ) : any ;
   }
 }
 // Generated from /home/jobispo/dev/Core18/stv-shaka-player/dist/shaka-player.compiled.externs.js
@@ -988,10 +988,10 @@ declare namespace shaka.media {
     release ( ) : any ;
     /**
      * Updates the references every so often.  Stops when the references list
-     * becomes empty.
+     * returned by the callback is null.
      * @param interval The interval in seconds.
      */
-    updateEvery (interval : number , updateCallback : ( ) => ( shaka.media.SegmentReference | null ) [] ) : any ;
+    updateEvery (interval : number , updateCallback : ( ) => ( shaka.media.SegmentReference | null ) [] | null ) : any ;
     /**
      * Create a SegmentIndex for a single segment of the given start time and
      * duration at the given URIs.
@@ -2402,6 +2402,14 @@ declare namespace google.ima {
   type AdsRequest = { adTagUrl ? : string , adsResponse ? : string } ;
 }
 // Generated from /home/jobispo/dev/Core18/stv-shaka-player/externs/ima.js
+declare namespace google.ima.ImaSdkSettings {
+  enum VpaidMode {
+    DISABLED = 0.0 ,
+    ENABLED = 1.0 ,
+    INSECURE = 2.0 ,
+  }
+}
+// Generated from /home/jobispo/dev/Core18/stv-shaka-player/externs/ima.js
 declare namespace google.ima {
   enum ViewMode {
     FULLSCREEN = 'FULLSCREEN' ,
@@ -2451,8 +2459,8 @@ declare namespace google.ima.dai.api {
   }
 }
 // Generated from /home/jobispo/dev/Core18/stv-shaka-player/externs/ima.js
-declare namespace google.ima.settings {
-  function setLocale (locale : string ) : any ;
+declare namespace google.ima {
+  let settings : google.ima.ImaSdkSettings ;
 }
 // Generated from /home/jobispo/dev/Core18/stv-shaka-player/externs/jwk_set.js
 declare namespace ಠ_ಠ.clutz {

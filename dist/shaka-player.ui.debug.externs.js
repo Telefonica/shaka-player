@@ -1808,9 +1808,9 @@ shaka.media.SegmentIndex = class {
   fit(windowStart, windowEnd) {}
   /**
    * Updates the references every so often.  Stops when the references list
-   * becomes empty.
+   * returned by the callback is null.
    * @param {number} interval The interval in seconds.
-   * @param {function():!Array.<shaka.media.SegmentReference>} updateCallback
+   * @param {function():Array.<shaka.media.SegmentReference>} updateCallback
    */
   updateEvery(interval, updateCallback) {}
   /**
