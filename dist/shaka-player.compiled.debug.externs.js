@@ -207,7 +207,6 @@ shaka.util.Error.Code = {
   'HLS_INVALID_PLAYLIST_HIERARCHY': 4017,
   'DASH_DUPLICATE_REPRESENTATION_ID': 4018,
   'HLS_MULTIPLE_MEDIA_INIT_SECTIONS_FOUND': 4020,
-  'HLS_COULD_NOT_GUESS_MIME_TYPE': 4021,
   'HLS_MASTER_PLAYLIST_NOT_PROVIDED': 4022,
   'HLS_REQUIRED_ATTRIBUTE_MISSING': 4023,
   'HLS_REQUIRED_TAG_MISSING': 4024,
@@ -1436,6 +1435,11 @@ shaka.media.SegmentReference = class {
    */
   constructor(startTime, endTime, uris, startByte, endByte, initSegmentReference, timestampOffset, appendWindowStart, appendWindowEnd) {}
   /**
+   * Creates and returns the URIs of the resource containing the segment.
+   * @return {!Array.<string>}
+   */
+  getUris() {}
+  /**
    * Returns the segment's start time in seconds.
    * @return {number}
    */
@@ -1586,7 +1590,8 @@ shaka.media.PresentationTimeline = class {
    * Gets the seek range start time, offset by the given amount.  This is used
    * to ensure that we don't "fall" back out of the seek window while we are
    * buffering.
-   * @param {number} offset The offset to add to the start time.
+   * @param {number} offset The offset to add to the start time for live
+   *   streams.
    * @return {number} The current seek start time, in seconds, relative to the
    *   start of the presentation.
    */
@@ -1676,6 +1681,20 @@ shaka.media.SegmentIndex = class {
    */
   merge(references) {}
   /**
+   * Merges the given SegmentReferences and evicts the ones that end before the
+   * given time.  Supports extending the original references only.
+   * Will not replace old references or interleave new ones.
+   * Used, for example, by the DASH and HLS parser, where manifests may not list
+   * all available references, so we must keep available references in memory to
+   * fill the availability window.
+   * @param {!Array.<!shaka.media.SegmentReference>} references The list of
+   *   SegmentReferences, which must be sorted first by their start times
+   *   (ascending) and second by their end times (ascending).
+   * @param {number} windowStart The start of the availability window to filter
+   *   out the references that are no longer available.
+   */
+  mergeAndEvict(references, windowStart) {}
+  /**
    * Removes all SegmentReferences that end before the given time.
    * @param {number} time The time in seconds.
    */
@@ -1688,8 +1707,10 @@ shaka.media.SegmentIndex = class {
    * duration is known and another period has been added.
    * @param {number} windowStart
    * @param {?number} windowEnd
+   * @param {boolean=} isNew Whether this is a new SegmentIndex and we shouldn't
+   *   update the number of evicted elements.
    */
-  fit(windowStart, windowEnd) {}
+  fit(windowStart, windowEnd, isNew) {}
   /**
    * Updates the references every so often.  Stops when the references list
    * returned by the callback is null.
@@ -1774,6 +1795,10 @@ shaka.media.MetaSegmentIndex = class extends shaka.media.SegmentIndex {
    * @override
    */
   evict(time) {}
+  /**
+   * @override
+   */
+  mergeAndEvict(references, windowStart) {}
   /**
    * @override
    */
@@ -2677,6 +2702,12 @@ shaka.ads.AdManager.CUEPOINTS_CHANGED;
  * @const {string}
  */
 shaka.ads.AdManager.IMA_AD_MANAGER_LOADED;
+/**
+ * The event name for when the native IMA stream manager object has
+ * loaded and become available.
+ * @const {string}
+ */
+shaka.ads.AdManager.IMA_STREAM_MANAGER_LOADED;
 /**
  * The event name for when the ad was clicked.
  * @const {string}
