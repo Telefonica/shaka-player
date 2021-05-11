@@ -17,7 +17,7 @@ const config = {
 ui.configure(config);
 ```
 
-Controls will fire a {@link shaka.ui.Controls.UIUpdatedEvent} event once the
+Controls will fire a {@link shaka.ui.Controls#event:UIUpdatedEvent} event once the
 config takes effect.
 See the docs for {@link shaka.extern.UIConfiguration} for more information.
 
@@ -181,6 +181,14 @@ uiConfig['controlPanelElements'] = ['rewind', 'fast_forward', 'skip'];
 ```
 <!-- TODO: Create a doc on best a11y practices for custom buttons and link to the
   localization docs explaining how to take advantage of our localization system. -->
+
+####  Shaka Theme Gallery
+Check out the set of [pre-packaged Shaka UI themes][], created by [@lucksy][]!
+PR contributions to [the gallery repo][] are welcome.
+[@lucksy]: https://github.com/lucksy
+[pre-packaged Shaka UI themes]: https://lucksy.github.io/shaka-player-themes/
+[the gallery repo]: https://github.com/lucksy/shaka-player-themes
+
 
 #### Continue the Tutorials
 
