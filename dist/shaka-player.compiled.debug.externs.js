@@ -169,7 +169,6 @@ shaka.util.Error.Code = {
   'HLS_INVALID_PLAYLIST_HIERARCHY': 4017,
   'DASH_DUPLICATE_REPRESENTATION_ID': 4018,
   'HLS_MULTIPLE_MEDIA_INIT_SECTIONS_FOUND': 4020,
-  'HLS_COULD_NOT_GUESS_MIME_TYPE': 4021,
   'HLS_MASTER_PLAYLIST_NOT_PROVIDED': 4022,
   'HLS_REQUIRED_ATTRIBUTE_MISSING': 4023,
   'HLS_REQUIRED_TAG_MISSING': 4024,
@@ -1626,7 +1625,7 @@ shaka.media.PresentationTimeline.prototype.getSegmentAvailabilityEnd = function(
  * Gets the seek range start time, offset by the given amount.  This is used to
  * ensure that we don't "fall" back out of the seek window while we are
  * buffering.
- * @param {number} offset The offset to add to the start time.
+ * @param {number} offset The offset to add to the start time for live streams.
  * @return {number} The current seek start time, in seconds, relative to the
  *   start of the presentation.
  */

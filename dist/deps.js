@@ -172,7 +172,7 @@ goog.addDependency('../../../ui/overflow_menu.js', ['shaka.ui.OverflowMenu'], ['
 goog.addDependency('../../../ui/pip_button.js', ['shaka.ui.PipButton'], ['shaka.ui.Element', 'shaka.ui.Locales', 'shaka.ui.Localization', 'shaka.ui.OverflowMenu', 'shaka.ui.Utils', 'shaka.util.Dom']);
 goog.addDependency('../../../ui/play_button.js', ['shaka.ui.PlayButton'], ['shaka.ui.Element', 'shaka.ui.Locales', 'shaka.ui.Localization', 'shaka.util.Dom']);
 goog.addDependency('../../../ui/presentation_time.js', ['shaka.ui.PresentationTimeTracker'], ['shaka.ui.Element', 'shaka.util.Dom']);
-goog.addDependency('../../../ui/range_element.js', ['shaka.ui.RangeElement'], ['shaka.ui.Element', 'shaka.util.Dom']);
+goog.addDependency('../../../ui/range_element.js', ['shaka.ui.RangeElement'], ['shaka.ui.Element', 'shaka.util.Dom', 'shaka.util.Timer']);
 goog.addDependency('../../../ui/resolution_selection.js', ['shaka.ui.ResolutionSelection'], ['shaka.ui.Enums', 'shaka.ui.Locales', 'shaka.ui.Localization', 'shaka.ui.OverflowMenu', 'shaka.ui.SettingsMenu', 'shaka.util.Dom']);
 goog.addDependency('../../../ui/rewind_button.js', ['shaka.ui.RewindButton'], ['shaka.ui.Element', 'shaka.ui.Enums', 'shaka.ui.Locales', 'shaka.ui.Localization', 'shaka.util.Dom']);
 goog.addDependency('../../../ui/seek_bar.js', ['shaka.ui.SeekBar'], ['shaka.ui.Constants', 'shaka.ui.Locales', 'shaka.ui.Localization', 'shaka.ui.RangeElement', 'shaka.ui.Utils', 'shaka.util.Timer']);
