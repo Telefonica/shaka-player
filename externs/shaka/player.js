@@ -516,7 +516,8 @@ shaka.extern.EmsgInfo;
  *   videoRobustness: string,
  *   audioRobustness: string,
  *   serverCertificate: Uint8Array,
- *   individualizationServer: string
+ *   individualizationServer: string,
+ *   sessionType: string
  * }}
  *
  * @property {boolean} distinctiveIdentifierRequired
@@ -547,6 +548,10 @@ shaka.extern.EmsgInfo;
  * @property {string} individualizationServer
  *   The server that handles an <code>'individualiation-request'</code>.  If the
  *   server isn't given, it will default to the license server.
+ * @property {string} sessionType
+ *   <i>Defaults to <code>'temporary'</code> for streaming.</i> <br>
+ *   The MediaKey session type to create streaming licenses with.  This doesn't
+ *   affect offline storage.
  *
  * @exportDoc
  */
@@ -612,13 +617,15 @@ shaka.extern.DrmConfiguration;
  * @typedef {{
  *   clockSyncUri: string,
  *   ignoreDrmInfo: boolean,
+ *   disableXlinkProcessing: boolean,
  *   xlinkFailGracefully: boolean,
  *   ignoreMinBufferTime: boolean,
  *   autoCorrectDrift: boolean,
  *   initialSegmentLimit: number,
  *   ignoreSuggestedPresentationDelay: boolean,
  *   ignoreEmptyAdaptationSet: boolean,
- *   ignoreMaxSegmentDuration: boolean
+ *   ignoreMaxSegmentDuration: boolean,
+ *   keySystemsByURI: !Object.<string, string>
  * }}
  *
  * @property {string} clockSyncUri
@@ -629,6 +636,9 @@ shaka.extern.DrmConfiguration;
  *   If true will cause DASH parser to ignore DRM information specified
  *   by the manifest and treat it as if it signaled no particular key
  *   system and contained no init data. Defaults to false if not provided.
+ * @property {boolean} disableXlinkProcessing
+ *   If true, xlink-related processing will be disabled. Defaults to
+ *   <code>false</code> if not provided.
  * @property {boolean} xlinkFailGracefully
  *   If true, xlink-related errors will result in a fallback to the tag's
  *   existing contents. If false, xlink-related errors will be propagated
@@ -662,6 +672,9 @@ shaka.extern.DrmConfiguration;
  *   If true will cause DASH parser to ignore
  *   <code>maxSegmentDuration</code> from manifest. Defaults to
  *   <code>false</code> if not provided.
+ * @property {Object.<string, string>} keySystemsByURI
+ *   A map of scheme URI to key system name. Defaults to default key systems
+ *   mapping handled by Shaka.
  * @exportDoc
  */
 shaka.extern.DashManifestConfiguration;
@@ -959,11 +972,13 @@ shaka.extern.OfflineConfiguration;
  *   preferredVariantRole: string,
  *   preferredTextRole: string,
  *   preferredAudioChannelCount: number,
+ *   preferredDecodingAttributes: !Array.<string>,
  *   preferForcedSubs: boolean,
  *   restrictions: shaka.extern.Restrictions,
  *   playRangeStart: number,
  *   playRangeEnd: number,
- *   textDisplayFactory: shaka.extern.TextDisplayer.Factory
+ *   textDisplayFactory: shaka.extern.TextDisplayer.Factory,
+ *   useMediaCapabilities: boolean
  * }}
  *
  * @property {shaka.extern.DrmConfiguration} drm
@@ -993,6 +1008,9 @@ shaka.extern.OfflineConfiguration;
  *   The preferred role to use for text tracks.
  * @property {number} preferredAudioChannelCount
  *   The preferred number of audio channels.
+ * @property {!Array.<string>} preferredDecodingAttributes
+ *   The list of preferred attributes of decodingInfo, in the order of their
+ *   priorities.
  * @property {boolean} preferForcedSubs
  *   If true, a forced text track is preferred.  Defaults to false.
  *   If the content has no forced captions and the value is true,
@@ -1012,6 +1030,10 @@ shaka.extern.OfflineConfiguration;
  * @property {shaka.extern.TextDisplayer.Factory} textDisplayFactory
  *   A factory to construct a text displayer. Note that, if this is changed
  *   during playback, it will cause the text tracks to be reloaded.
+ * @property {boolean} useMediaCapabilities
+ *   If true, use MediaCapabilities.decodingInfo() to filter the manifest, and
+ *   get MediaKeys information for encrypted content. Default to false.
+ *   Shaka Player's integration with MediaCapabilities is now in BETA.
  * @exportDoc
  */
 shaka.extern.PlayerConfiguration;

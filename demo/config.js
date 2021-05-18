@@ -133,16 +133,9 @@ shakaDemo.Config = class {
             /* canBeZero= */ false,
             /* canBeUnset= */ true);
     const advanced = shakaDemoMain.getConfiguration().drm.advanced || {};
-    const robustnessSuggestions = [
-      'SW_SECURE_CRYPTO',
-      'SW_SECURE_DECODE',
-      'HW_SECURE_CRYPTO',
-      'HW_SECURE_DECODE',
-      'HW_SECURE_ALL',
-    ];
-    const addRobustnessField = (name, valueName) => {
-      // All robustness fields of a given type are set at once.
-      this.addDatalistInput_(name, robustnessSuggestions, (input) => {
+    const addDRMAdvancedField = (name, valueName, suggestions) => {
+      // All advanced fields of a given type are set at once.
+      this.addDatalistInput_(name, suggestions, (input) => {
         // Add in any common drmSystem not currently in advanced.
         for (const drmSystem of shakaDemo.Main.commonDrmSystems) {
           if (!(drmSystem in advanced)) {
@@ -158,12 +151,37 @@ shakaDemo.Config = class {
       });
       const keySystem = Object.keys(advanced)[0];
       if (keySystem) {
-        const currentRobustness = advanced[keySystem][valueName];
-        this.latestInput_.input().value = currentRobustness;
+        const currentValue = advanced[keySystem][valueName];
+        this.latestInput_.input().value = currentValue;
       }
     };
-    addRobustnessField(MessageIds.VIDEO_ROBUSTNESS, 'videoRobustness');
-    addRobustnessField(MessageIds.AUDIO_ROBUSTNESS, 'audioRobustness');
+
+    const robustnessSuggestions = [
+      'SW_SECURE_CRYPTO',
+      'SW_SECURE_DECODE',
+      'HW_SECURE_CRYPTO',
+      'HW_SECURE_DECODE',
+      'HW_SECURE_ALL',
+      '150',
+      '2000',
+      '3000',
+    ];
+
+    const sessionTypeSuggestions = ['temporary', 'persistent-license'];
+
+    addDRMAdvancedField(
+        MessageIds.VIDEO_ROBUSTNESS,
+        'videoRobustness',
+        robustnessSuggestions);
+    addDRMAdvancedField(
+        MessageIds.AUDIO_ROBUSTNESS,
+        'audioRobustness',
+        robustnessSuggestions);
+    addDRMAdvancedField(
+        MessageIds.DRM_SESSION_TYPE,
+        'sessionType',
+        sessionTypeSuggestions);
+
     this.addRetrySection_('drm', MessageIds.DRM_RETRY_SECTION_HEADER);
   }
 
@@ -176,6 +194,8 @@ shakaDemo.Config = class {
             'manifest.dash.ignoreDrmInfo')
         .addBoolInput_(MessageIds.AUTO_CORRECT_DASH_DRIFT,
             'manifest.dash.autoCorrectDrift')
+        .addBoolInput_(MessageIds.DISABLE_XLINK_PROCESSING,
+            'manifest.dash.disableXlinkProcessing')
         .addBoolInput_(MessageIds.XLINK_FAIL_GRACEFULLY,
             'manifest.dash.xlinkFailGracefully')
         .addBoolInput_(MessageIds.IGNORE_DASH_SUGGESTED_PRESENTATION_DELAY,
@@ -278,6 +298,11 @@ shakaDemo.Config = class {
         .addNumberInput_(MessageIds.FUZZ_FACTOR, prefix + 'fuzzFactor',
             /* canBeDecimal= */ true)
         .addNumberInput_(MessageIds.TIMEOUT, prefix + 'timeout',
+            /* canBeDecimal= */ true)
+        .addNumberInput_(MessageIds.STALL_TIMEOUT, prefix + 'stallTimeout',
+            /* canBeDecimal= */ true)
+        .addNumberInput_(MessageIds.CONNECTION_TIMEOUT,
+            prefix + 'connectionTimeout',
             /* canBeDecimal= */ true);
   }
 
@@ -332,7 +357,9 @@ shakaDemo.Config = class {
         .addBoolInput_(MessageIds.FORCE_HTTPS,
             'streaming.forceHTTPS')
         .addBoolInput_(MessageIds.PREFER_NATIVE_HLS,
-            'streaming.preferNativeHls');
+            'streaming.preferNativeHls')
+        .addBoolInput_(MessageIds.USE_MEDIA_CAPABILITIES,
+            'useMediaCapabilities');
 
     if (!shakaDemoMain.getNativeControlsEnabled()) {
       this.addBoolInput_(MessageIds.ALWAYS_STREAM_TEXT,
@@ -368,7 +395,8 @@ shakaDemo.Config = class {
     const docLink = this.resolveExternLink_('.PlayerConfiguration');
     this.addSection_(MessageIds.LANGUAGE_SECTION_HEADER, docLink)
         .addTextInput_(MessageIds.AUDIO_LANGUAGE, 'preferredAudioLanguage')
-        .addTextInput_(MessageIds.TEXT_LANGUAGE, 'preferredTextLanguage');
+        .addTextInput_(MessageIds.TEXT_LANGUAGE, 'preferredTextLanguage')
+        .addTextInput_(MessageIds.TEXT_ROLE, 'preferredTextRole');
     const onChange = (input) => {
       shakaDemoMain.setUILocale(input.value);
       shakaDemoMain.remakeHash();

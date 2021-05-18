@@ -143,6 +143,10 @@
     "description": "A link in the footer, to the release build of the demo.",
     "message": "Compiled (Release)"
   },
+  "DEMO_CONNECTION_TIMEOUT": {
+    "description": "The name of a configuration value.",
+    "message": "Connection timeout"
+  },
   "DEMO_CONFIG": {
     "description": "A title on the configuration panel, labeling it as configuration.",
     "message": "[PROPER_NAME:Shaka Player] Demo Config"
@@ -219,6 +223,10 @@
     "description": "The name of a configuration value.",
     "message": "Disable Video"
   },
+  "DEMO_DISABLE_XLINK_PROCESSING": {
+    "description": "The name of a configuration value.",
+    "message": "Disable [JARGON:Xlink] processing"
+  },
   "DEMO_DOCUMENTATION": {
     "description": "A link in the footer, to the Shaka Player documentation.",
     "message": "Documentation"
@@ -234,6 +242,10 @@
   "DEMO_DRM_SECTION_HEADER": {
     "description": "The header for a section of configuration values.",
     "message": "[JARGON:DRM]"
+  },
+  "DEMO_DRM_SESSION_TYPE": {
+    "description": "The name of a configuration value.",
+    "message": "Session Type"
   },
   "DEMO_DRM_SYSTEM": {
     "description": "The label on a field that allows users to provide a Digital Rights Management (DRM) system identifier for a custom asset.",
@@ -254,6 +266,14 @@
   "DEMO_ENABLED": {
     "description": "The name of a configuration value.",
     "message": "Enabled"
+  },
+  "DEMO_EXTRA_SHAKA_PLAYER_CONFIG": {
+    "description": "A label for a form field where extra Shaka Player configuration can be set",
+    "message": "Extra [PROPER_NAME:Shaka Player] configuration ([JARGON:JSON])"
+  },
+  "DEMO_EXTRA_TAB": {
+    "description": "The header for a tab within the custom asset creation dialog.",
+    "message": "Extra Config"
   },
   "DEMO_FAIRPLAY": {
     "description": "Text that describes an asset that is protected with the Fairplay Digital Rights Management system.",
@@ -366,6 +386,10 @@
   "DEMO_INITIAL_SEGMENT_LIMIT": {
     "description": "The name of a configuration value.",
     "message": "Initial Segment Limit"
+  },
+  "DEMO_INVALID_JSON_CONFIG_ERROR": {
+    "description": "An error message for an invalid JSON configuration.",
+    "message": "Invalid JSON configuration"
   },
   "DEMO_IRT": {
     "description": "Text that describes an asset that comes from the Institut f\u00fcr Rundfunktechnik asset library.",
@@ -499,9 +523,21 @@
     "description": "The name of a configuration value.",
     "message": "Max Width"
   },
+  "DEMO_USE_MEDIA_CAPABILITIES": {
+    "description": "The name of a configuration value.",
+    "message": "Use [JARGON:MediaCapabilities]"
+  },
+  "DEMO_METACDN": {
+    "description": "Text that describes an asset that comes from the MetaCDN asset library.",
+    "message": "[PROPER_NAME:MetaCDN]"
+  },
   "DEMO_MICROSOFT": {
     "description": "Text that describes an asset that comes from the Microsoft.",
     "message": "[PROPER_NAME:Microsoft]"
+  },
+  "DEMO_MIME_TYPE": {
+    "description": "The label on a field that allows users to provide a MIME type for a custom asset.",
+    "message": "MIME Type"
   },
   "DEMO_MIN_BANDWIDTH": {
     "description": "The name of a configuration value.",
@@ -667,6 +703,10 @@
     "description": "The name of a configuration value.",
     "message": "Stall Threshold"
   },
+  "DEMO_STALL_TIMEOUT": {
+    "description": "The name of a configuration value.",
+    "message": "Stall timeout"
+  },
   "DEMO_START_AT_SEGMENT_BOUNDARY": {
     "description": "The name of a configuration value.",
     "message": "Start At Segment Boundary"
@@ -714,6 +754,10 @@
   "DEMO_TEXT_LANGUAGE": {
     "description": "The name of a configuration value.",
     "message": "Preferred Text Language"
+  },
+  "DEMO_TEXT_ROLE": {
+    "description": "The name of a configuration value.",
+    "message": "Preferred Text Role"
   },
   "DEMO_THUMBNAILS": {
     "description": "Text that describes an asset that has a thumbnail stream.",

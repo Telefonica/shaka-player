@@ -281,6 +281,8 @@ shaka.test.ManifestGenerator.Variant = class {
       this.allowedByApplication = true;
       /** @type {boolean} */
       this.allowedByKeySystem = true;
+      /** @type {!Array.<MediaCapabilitiesDecodingInfo>} */
+      this.decodingInfos = [];
     }
 
     /** @type {shaka.extern.Variant} */
@@ -403,6 +405,8 @@ shaka.test.ManifestGenerator.DrmInfo = class {
     this.initData = null;
     /** @type {Set.<string>} */
     this.keyIds = new Set();
+    /** @type {string} */
+    this.sessionType = '';
 
     /** @type {shaka.extern.DrmInfo} */
     const foo = this;
