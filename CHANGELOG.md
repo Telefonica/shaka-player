@@ -1,3 +1,60 @@
+## 3.0.13 (2021-07-14)
+
+Bugfixes:
+  - Fix choosing tracks from streaming event
+    - https://github.com/google/shaka-player/issues/3448
+    - https://github.com/google/shaka-player/pull/3459
+  - Update Play icon after seeking from end
+    - https://github.com/google/shaka-player/pull/3515
+  - Fix DASH transition from dynamic to static
+    - https://github.com/google/shaka-player/pull/3497
+  - Fix ARIA label on replay button
+    - https://github.com/google/shaka-player/pull/3513
+  - Fix audio language switching while using AirPlay
+    - https://github.com/google/shaka-player/issues/3125
+    - https://github.com/google/shaka-player/pull/3472
+  - Show captions with rapid seek when ignoreTextStreamFailures is true
+    - https://github.com/google/shaka-player/pull/3476
+  - Fix clearing buffer when requested for already-selected variant
+    - https://github.com/google/shaka-player/pull/3477
+  - Fix hung playback on rapid seek
+    - https://github.com/google/shaka-player/pull/3479
+
+
+## 3.0.12 (2021-06-17)
+
+Bugfixes:
+  - Fix buffering due to re-fetch in multi-period DASH
+    - https://github.com/google/shaka-player/pull/3419
+    - https://github.com/google/shaka-player/issues/3354
+  - Prioritize AVERAGE-BANDWIDTH over BANDWIDTH in HLS
+    - https://github.com/google/shaka-player/pull/3428
+  - Fix EC-3 box support in DRM workaround on smart TVs
+    - https://github.com/google/shaka-player/pull/3427
+  - Fix exception in UI on devices that do not support fullscreen
+    - https://github.com/google/shaka-player/issues/3441
+  - Fix caption positioning and sizing when the container resizes
+    - https://github.com/google/shaka-player/pull/3426
+    - https://github.com/google/shaka-player/pull/3425
+    - https://github.com/google/shaka-player/pull/3414
+  - Fix exceptions thrown in content with trick-mode tracks
+    - https://github.com/google/shaka-player/issues/3423
+  - Filter unsupported H.264 streams in Xbox
+    - https://github.com/google/shaka-player/pull/3411
+  - Choose the configured preferred text role at start
+    - https://github.com/google/shaka-player/pull/3399
+  - Fix ClearKey+WebM+src= playback failure
+    - https://github.com/google/shaka-player/issues/3366
+  - Fix double-display of embedded and non-embedded captions
+    - https://github.com/google/shaka-player/issues/3199
+
+Docs:
+  - Document disabling Range header requests in HLS
+    - https://github.com/google/shaka-player/pull/3442
+  - Add Angular integration link
+    - https://github.com/google/shaka-player/pull/3409
+
+
 ## 3.0.11 (2021-04-28)
 
 Bugfixes:
