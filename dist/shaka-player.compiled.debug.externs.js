@@ -89,10 +89,7 @@ shaka.util.BufferUtils = class {
  * <ul>
  *   <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/MediaError">MediaError</a>
  *   <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status">HTTP Codes</a>
- *   <li>
- *     <a href="https://docs.microsoft.com/en-us/windows/win32/wmdm/error-codes">PlayReady errors</a>
- *     or
- *     <a href="https://github.com/tpn/winsdk-10/blob/master/Include/10.0.16299.0/winrt/Windows.Media.Protection.PlayReadyErrors.h">more PlayReady errors</a>
+ *   <li><a href="https://hresult.info">Edge/PlayReady errors</a>
  * </ul>
  * @implements {shaka.extern.Error}
  * @extends {Error}
@@ -1671,13 +1668,16 @@ shaka.media.SegmentIndex = class {
   offset(offset) {}
   /**
    * Merges the given SegmentReferences.  Supports extending the original
-   * references only.  Will not replace old references or interleave new ones.
+   * references only.  Will replace old references with equivalent new ones, and
+   * keep any unique old ones.
    * Used, for example, by the DASH and HLS parser, where manifests may not list
    * all available references, so we must keep available references in memory to
    * fill the availability window.
    * @param {!Array.<!shaka.media.SegmentReference>} references The list of
    *   SegmentReferences, which must be sorted first by their start times
    *   (ascending) and second by their end times (ascending).
+   * @deprecated Not used directly by our own parsers, so will become private in
+   *   v4.  Use mergeAndEvict() instead.
    */
   merge(references) {}
   /**
@@ -1721,9 +1721,10 @@ shaka.media.SegmentIndex = class {
   /**
    * Returns a new iterator that initially points to the segment that contains
    * the given time.  Like the normal iterator, next() must be called first to
-   * get to the first element.
+   * get to the first element. Returns null if we do not find a segment at the
+   * requested time.
    * @param {number} time
-   * @return {!shaka.media.SegmentIterator}
+   * @return {?shaka.media.SegmentIterator}
    */
   getIteratorForTime(time) {}
   /**

@@ -968,9 +968,10 @@ declare namespace shaka.media {
     /**
      * Returns a new iterator that initially points to the segment that contains
      * the given time.  Like the normal iterator, next() must be called first to
-     * get to the first element.
+     * get to the first element. Returns null if we do not find a segment at the
+     * requested time.
      */
-    getIteratorForTime (time : number ) : shaka.media.SegmentIterator ;
+    getIteratorForTime (time : number ) : shaka.media.SegmentIterator | null ;
     /**
      * Marks the index as immutable.  Segments cannot be added or removed after
      * this point.  This doesn't affect the references themselves.  This also
@@ -980,7 +981,8 @@ declare namespace shaka.media {
     markImmutable ( ) : any ;
     /**
      * Merges the given SegmentReferences.  Supports extending the original
-     * references only.  Will not replace old references or interleave new ones.
+     * references only.  Will replace old references with equivalent new ones, and
+     * keep any unique old ones.
      * Used, for example, by the DASH and HLS parser, where manifests may not list
      * all available references, so we must keep available references in memory to
      * fill the availability window.
