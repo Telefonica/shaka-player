@@ -972,7 +972,6 @@ shaka.extern.OfflineConfiguration;
  *   preferredVariantRole: string,
  *   preferredTextRole: string,
  *   preferredAudioChannelCount: number,
- *   preferredDecodingAttributes: !Array.<string>,
  *   preferForcedSubs: boolean,
  *   restrictions: shaka.extern.Restrictions,
  *   playRangeStart: number,
@@ -1008,9 +1007,6 @@ shaka.extern.OfflineConfiguration;
  *   The preferred role to use for text tracks.
  * @property {number} preferredAudioChannelCount
  *   The preferred number of audio channels.
- * @property {!Array.<string>} preferredDecodingAttributes
- *   The list of preferred attributes of decodingInfo, in the order of their
- *   priorities.
  * @property {boolean} preferForcedSubs
  *   If true, a forced text track is preferred.  Defaults to false.
  *   If the content has no forced captions and the value is true,
@@ -1063,6 +1059,8 @@ shaka.extern.LanguageRole;
  *   height: number,
  *   positionX: number,
  *   positionY: number,
+ *   startTime: number,
+ *   duration: number,
  *   uris: !Array.<string>,
  *   width: number
  * }}
@@ -1073,6 +1071,10 @@ shaka.extern.LanguageRole;
  *    The thumbnail left position in px.
  * @property {number} positionY
  *    The thumbnail top position in px.
+ * @property {number} startTime
+ *    The start time of the thumbnail in the presentation timeline, in seconds.
+ * @property {number} duration
+ *    The duration of the thumbnail, in seconds.
  * @property {!Array.<string>} uris
  *   An array of URIs to attempt.  They will be tried in the order they are
  *   given.
