@@ -17,12 +17,12 @@ goog.addDependency('../../../../dist/locales.js', ['shaka.ui.Locales'], ['shaka.
 goog.addDependency('../../../../lib/abr/ewma.js', ['shaka.abr.Ewma'], ['goog.asserts'], {});
 goog.addDependency('../../../../lib/abr/ewma_bandwidth_estimator.js', ['shaka.abr.EwmaBandwidthEstimator'], ['shaka.abr.Ewma'], {});
 goog.addDependency('../../../../lib/abr/simple_abr_manager.js', ['shaka.abr.SimpleAbrManager'], ['goog.asserts', 'shaka.abr.EwmaBandwidthEstimator', 'shaka.log', 'shaka.util.Iterables', 'shaka.util.StreamUtils'], {});
-goog.addDependency('../../../../lib/ads/ad_manager.js', ['shaka.ads.AdManager', 'shaka.ads.CuePoint'], ['shaka.Player', 'shaka.ads.AdsStats', 'shaka.ads.ClientSideAdManager', 'shaka.ads.ServerSideAdManager', 'shaka.log', 'shaka.util.Error', 'shaka.util.FakeEvent', 'shaka.util.FakeEventTarget', 'shaka.util.IReleasable'], {});
+goog.addDependency('../../../../lib/ads/ad_manager.js', ['shaka.ads.AdManager', 'shaka.ads.CuePoint'], ['shaka.Player', 'shaka.ads.AdsStats', 'shaka.ads.ClientSideAdManager', 'shaka.ads.ServerSideAdManager', 'shaka.log', 'shaka.util.Error', 'shaka.util.FakeEvent', 'shaka.util.FakeEventTarget'], {});
 goog.addDependency('../../../../lib/ads/ads_stats.js', ['shaka.ads.AdsStats'], [], {});
 goog.addDependency('../../../../lib/ads/client_side_ad.js', ['shaka.ads.ClientSideAd'], ['shaka.util.EventManager'], {});
-goog.addDependency('../../../../lib/ads/client_side_ad_manager.js', ['shaka.ads.ClientSideAdManager'], ['goog.asserts', 'shaka.ads.ClientSideAd', 'shaka.util.IReleasable'], {});
+goog.addDependency('../../../../lib/ads/client_side_ad_manager.js', ['shaka.ads.ClientSideAdManager'], ['goog.asserts', 'shaka.ads.ClientSideAd'], {});
 goog.addDependency('../../../../lib/ads/server_side_ad.js', ['shaka.ads.ServerSideAd'], [], {});
-goog.addDependency('../../../../lib/ads/server_side_ad_manager.js', ['shaka.ads.ServerSideAdManager'], ['goog.asserts', 'shaka.ads.ServerSideAd', 'shaka.log', 'shaka.util.IReleasable'], {});
+goog.addDependency('../../../../lib/ads/server_side_ad_manager.js', ['shaka.ads.ServerSideAdManager'], ['goog.asserts', 'shaka.ads.ServerSideAd', 'shaka.log'], {});
 goog.addDependency('../../../../lib/cast/cast_proxy.js', ['shaka.cast.CastProxy'], ['goog.asserts', 'shaka.Player', 'shaka.cast.CastSender', 'shaka.cast.CastUtils', 'shaka.log', 'shaka.util.Error', 'shaka.util.EventManager', 'shaka.util.FakeEvent', 'shaka.util.FakeEventTarget', 'shaka.util.IDestroyable'], {});
 goog.addDependency('../../../../lib/cast/cast_receiver.js', ['shaka.cast.CastReceiver'], ['goog.asserts', 'shaka.Player', 'shaka.cast.CastUtils', 'shaka.log', 'shaka.util.Error', 'shaka.util.EventManager', 'shaka.util.FakeEvent', 'shaka.util.FakeEventTarget', 'shaka.util.IDestroyable', 'shaka.util.Platform', 'shaka.util.Timer'], {});
 goog.addDependency('../../../../lib/cast/cast_sender.js', ['shaka.cast.CastSender'], ['goog.asserts', 'shaka.cast.CastUtils', 'shaka.log', 'shaka.util.Error', 'shaka.util.FakeEvent', 'shaka.util.IDestroyable', 'shaka.util.PublicPromise', 'shaka.util.Timer'], {});

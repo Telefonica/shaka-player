@@ -2136,14 +2136,6 @@ shaka.Player = class extends shaka.util.FakeEventTarget {
    */
   unload(initializeMediaSource) {}
   /**
-   * Stops:
-   *  -
-   *  -
-   * to make faster channel change
-   * @return {!Promise}
-   */
-  silentUnload() {}
-  /**
    * Tell the player to load the content at <code>assetUri</code> and start
    * playback at <code>startTime</code>. Before calling <code>load</code>,
    * a call to <code>attach</code> must have succeeded.
@@ -2694,7 +2686,6 @@ shaka.ads.ServerSideAd = class {
 /**
  * A class responsible for ad-related interactions.
  * @implements {shaka.extern.IAdManager}
- * @implements {shaka.util.IReleasable}
  */
 shaka.ads.AdManager = class extends shaka.util.FakeEventTarget {
   /** */
@@ -2707,10 +2698,6 @@ shaka.ads.AdManager = class extends shaka.util.FakeEventTarget {
    * @override
    */
   initClientSide(adContainer, video) {}
-  /**
-   * @override
-   */
-  release() {}
   /**
   * @override
   */
@@ -3348,134 +3335,6 @@ shaka.polyfill = class {
    *   will be executed before lower priority ones.  Default is 0.
    */
   static register(polyfill, priority) {}
-};
-/**
- * @summary A polyfill to add support for EncryptionScheme queries in EME.
- * @see https://wicg.github.io/encrypted-media-encryption-scheme/
- * @see https://github.com/w3c/encrypted-media/pull/457
- * @see https://github.com/google/eme-encryption-scheme-polyfill
- */
-shaka.polyfill.EncryptionScheme = class {
-  /**
-   * Install the polyfill if needed.
-   * @suppress {missingRequire}
-   */
-  static install() {}
-};
-/**
- * @summary A polyfill to unify fullscreen APIs across browsers.
- * Many browsers have prefixed fullscreen methods on Element and document.
- * See {@link https://mzl.la/2K0xcHo Using fullscreen mode} on MDN for more
- * information.
- */
-shaka.polyfill.Fullscreen = class {
-  /**
-   * Install the polyfill if needed.
-   */
-  static install() {}
-};
-/**
- * @summary A polyfill to patch math round bug on some browsers.
- * @see https://stackoverflow.com/q/12830742
- */
-shaka.polyfill.MathRound = class {
-  /**
-   * Install the polyfill if needed.
-   */
-  static install() {}
-};
-/**
- * @summary A polyfill to patch MSE bugs.
- */
-shaka.polyfill.MediaSource = class {
-  /**
-   * Install the polyfill if needed.
-   */
-  static install() {}
-};
-/**
- * @summary A polyfill to implement modern, standardized EME on top of Apple's
- * prefixed EME in Safari.
- */
-shaka.polyfill.PatchedMediaKeysApple = class {
-  /**
-   * Installs the polyfill if needed.
-   */
-  static install() {}
-};
-/**
- * @summary A polyfill to implement
- * {@link https://bit.ly/EmeMar15 EME draft 12 March 2015}
- * on top of ms-prefixed
- * {@link https://www.w3.org/TR/2014/WD-encrypted-media-20140218/ EME v20140218}
- */
-shaka.polyfill.PatchedMediaKeysMs = class {
-  /**
-   * Installs the polyfill if needed.
-   */
-  static install() {}
-};
-/**
- * @summary A polyfill to stub out
- * {@link https://bit.ly/EmeMar15 EME draft 12 March 2015} on browsers without
- * EME.
- * All methods will fail.
- */
-shaka.polyfill.PatchedMediaKeysNop = class {
-  /**
-   * Installs the polyfill if needed.
-   */
-  static install() {}
-};
-/**
- * @summary A polyfill to implement
- * {@link https://bit.ly/EmeMar15 EME draft 12 March 2015} on top of
- * webkit-prefixed {@link https://bit.ly/Eme01b EME v0.1b}.
- */
-shaka.polyfill.PatchedMediaKeysWebkit = class {
-  /**
-   * Installs the polyfill if needed.
-   */
-  static install() {}
-};
-/**
- * @summary A polyfill to provide PiP support in Safari.
- * Note that Safari only supports PiP on video elements, not audio.
- */
-shaka.polyfill.PiPWebkit = class {
-  /**
-   * Install the polyfill if needed.
-   */
-  static install() {}
-};
-/**
- * @summary A polyfill to silence the play() Promise in HTML5 video.
- */
-shaka.polyfill.VideoPlayPromise = class {
-  /**
-   * Install the polyfill if needed.
-   */
-  static install() {}
-};
-/**
- * @summary A polyfill to provide MSE VideoPlaybackQuality metrics.
- * Many browsers do not yet provide this API, and Chrome currently provides
- * similar data through individual prefixed attributes on HTMLVideoElement.
- */
-shaka.polyfill.VideoPlaybackQuality = class {
-  /**
-   * Install the polyfill if needed.
-   */
-  static install() {}
-};
-/**
- * @summary A polyfill to provide VTTCue.
- */
-shaka.polyfill.VTTCue = class {
-  /**
-   * Install the polyfill if needed.
-   */
-  static install() {}
 };
 /**
  * @implements {shaka.extern.TextParser}
