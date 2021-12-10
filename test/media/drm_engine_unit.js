@@ -37,7 +37,7 @@ function testDrmEngine(useMediaCapabilities) {
       navigator.requestMediaKeySystemAccess;
   const originalLogError = shaka.log.error;
   const originalBatchTime = shaka.media.DrmEngine.KEY_STATUS_BATCH_TIME;
-  const originalDecodingInfo = navigator.mediaCapabilities.decodingInfo;
+  const originalDecodingInfo = window.shakaMediaCapabilities.decodingInfo;
 
   /** @type {!jasmine.Spy} */
   let requestMediaKeySystemAccessSpy;
@@ -88,7 +88,7 @@ function testDrmEngine(useMediaCapabilities) {
     navigator.requestMediaKeySystemAccess =
         shaka.test.Util.spyFunc(requestMediaKeySystemAccessSpy);
     decodingInfoSpy = jasmine.createSpy('decodingInfo');
-    navigator.mediaCapabilities.decodingInfo =
+    window.shakaMediaCapabilities.decodingInfo =
         shaka.test.Util.spyFunc(decodingInfoSpy);
 
     logErrorSpy = jasmine.createSpy('shaka.log.error');
@@ -165,7 +165,7 @@ function testDrmEngine(useMediaCapabilities) {
 
     navigator.requestMediaKeySystemAccess =
         originalRequestMediaKeySystemAccess;
-    navigator.mediaCapabilities.decodingInfo = originalDecodingInfo;
+    window.shakaMediaCapabilities.decodingInfo = originalDecodingInfo;
     shaka.log.error = originalLogError;
   });
 
@@ -2411,6 +2411,19 @@ function testDrmEngine(useMediaCapabilities) {
           shaka.util.Error.Code.LICENSE_RESPONSE_REJECTED, 'Error'));
       await expectAsync(drmEngine.removeSession('abc'))
           .toBeRejectedWith(expected);
+    });
+
+    // Regression test for #3534
+    it('does not remove the same session again on destroy', async () => {
+      updatePromise.resolve();
+      expect(session1.remove).not.toHaveBeenCalled();
+      await drmEngine.removeSession('abc');
+      expect(session1.remove).toHaveBeenCalled();
+      session1.remove.calls.reset();
+      await drmEngine.destroy();
+      // The session should only be removed ONCE. If it's double-removed, it
+      // will make a (non-fatal) DOMException.
+      expect(session1.remove).not.toHaveBeenCalled();
     });
   });
 
