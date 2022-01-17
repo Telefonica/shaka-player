@@ -130,7 +130,7 @@ goog.addDependency('../../../../lib/util/ebml_parser.js', ['shaka.util.EbmlEleme
 goog.addDependency('../../../../lib/util/error.js', ['shaka.util.Error'], [], {});
 goog.addDependency('../../../../lib/util/event_manager.js', ['shaka.util.EventManager'], ['goog.asserts', 'shaka.util.IReleasable', 'shaka.util.MultiMap'], {});
 goog.addDependency('../../../../lib/util/fairplay_utils.js', ['shaka.util.FairPlayUtils'], ['goog.Uri', 'goog.asserts', 'shaka.util.BufferUtils', 'shaka.util.Error', 'shaka.util.StringUtils'], {});
-goog.addDependency('../../../../lib/util/fake_event.js', ['shaka.util.FakeEvent'], [], {});
+goog.addDependency('../../../../lib/util/fake_event.js', ['shaka.util.FakeEvent'], ['goog.asserts'], {});
 goog.addDependency('../../../../lib/util/fake_event_target.js', ['shaka.util.FakeEventTarget'], ['goog.asserts', 'shaka.log', 'shaka.util.FakeEvent', 'shaka.util.MultiMap'], {});
 goog.addDependency('../../../../lib/util/functional.js', ['shaka.util.Functional'], ['shaka.Deprecate'], {});
 goog.addDependency('../../../../lib/util/i_destroyable.js', ['shaka.util.IDestroyable'], [], {});

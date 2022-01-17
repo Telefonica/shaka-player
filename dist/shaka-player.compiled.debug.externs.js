@@ -510,7 +510,7 @@ shaka.util.AbortableOperation.prototype.promise;
 shaka.util.FakeEvent = class {
   /**
    * @param {string} type
-   * @param {Object=} dict
+   * @param {Map.<string, Object>=} dict
    */
   constructor(type, dict) {}
 };

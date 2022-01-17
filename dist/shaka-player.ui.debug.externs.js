@@ -32,9 +32,9 @@ shaka.offline = {};
 /** @const */
 shaka.text = {};
 /** @const */
-shaka.util = {};
-/** @const */
 shaka.ui = {};
+/** @const */
+shaka.util = {};
 
 /**
  * @summary Create an Event work-alike object based on the provided dictionary.
@@ -44,7 +44,7 @@ shaka.ui = {};
 shaka.util.FakeEvent = class {
   /**
    * @param {string} type
-   * @param {Object=} dict
+   * @param {Map.<string, Object>=} dict
    */
   constructor(type, dict) {}
 };
