@@ -89,10 +89,7 @@ shaka.util.BufferUtils = class {
  * <ul>
  *   <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/MediaError">MediaError</a>
  *   <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status">HTTP Codes</a>
- *   <li>
- *     <a href="https://docs.microsoft.com/en-us/windows/win32/wmdm/error-codes">PlayReady errors</a>
- *     or
- *     <a href="https://github.com/tpn/winsdk-10/blob/master/Include/10.0.16299.0/winrt/Windows.Media.Protection.PlayReadyErrors.h">more PlayReady errors</a>
+ *   <li><a href="https://hresult.info">Edge/PlayReady errors</a>
  * </ul>
  * @implements {shaka.extern.Error}
  * @extends {Error}
@@ -721,6 +718,10 @@ shaka.text.Cue.prototype.nestedCues;
 /**
      * @override
      */
+shaka.text.Cue.prototype.isContainer;
+/**
+     * @override
+     */
 shaka.text.Cue.prototype.lineBreak;
 /**
      * @override
@@ -1195,7 +1196,7 @@ shaka.util.AbortableOperation.prototype.promise;
 shaka.util.FakeEvent = class {
   /**
    * @param {string} type
-   * @param {Object=} dict
+   * @param {Map.<string, Object>=} dict
    */
   constructor(type, dict) {}
 };
@@ -1204,6 +1205,7 @@ shaka.util.FakeEvent = class {
  * EventTargets, but this can be used as a base class to provide event dispatch
  * to non-DOM classes.  Only FakeEvents should be dispatched.
  * @implements {EventTarget}
+ * @implements {shaka.util.IReleasable}
  */
 shaka.util.FakeEventTarget = class {
   /** */
@@ -1241,6 +1243,10 @@ shaka.util.FakeEventTarget = class {
    * @override
    */
   dispatchEvent(event) {}
+  /**
+   * @override
+   */
+  release() {}
 };
 /**
  * These are the listener types defined in the closure extern for EventTarget.
@@ -1768,13 +1774,16 @@ shaka.media.SegmentIndex = class {
   offset(offset) {}
   /**
    * Merges the given SegmentReferences.  Supports extending the original
-   * references only.  Will not replace old references or interleave new ones.
+   * references only.  Will replace old references with equivalent new ones, and
+   * keep any unique old ones.
    * Used, for example, by the DASH and HLS parser, where manifests may not list
    * all available references, so we must keep available references in memory to
    * fill the availability window.
    * @param {!Array.<!shaka.media.SegmentReference>} references The list of
    *   SegmentReferences, which must be sorted first by their start times
    *   (ascending) and second by their end times (ascending).
+   * @deprecated Not used directly by our own parsers, so will become private in
+   *   v4.  Use mergeAndEvict() instead.
    */
   merge(references) {}
   /**
@@ -1818,9 +1827,10 @@ shaka.media.SegmentIndex = class {
   /**
    * Returns a new iterator that initially points to the segment that contains
    * the given time.  Like the normal iterator, next() must be called first to
-   * get to the first element.
+   * get to the first element. Returns null if we do not find a segment at the
+   * requested time.
    * @param {number} time
-   * @return {!shaka.media.SegmentIterator}
+   * @return {?shaka.media.SegmentIterator}
    */
   getIteratorForTime(time) {}
   /**
@@ -2168,11 +2178,6 @@ shaka.Player = class extends shaka.util.FakeEventTarget {
    * @return {shaka.extern.PlayerConfiguration}
    */
   getConfiguration() {}
-  /**
-   * Returns the ratio of video length buffered compared to buffering Goal
-   * @return {number}
-   */
-  getBufferFullness() {}
   /**
    * Reset configuration to default.
    */
@@ -2711,6 +2716,7 @@ shaka.ads.ServerSideAd = class {
 /**
  * A class responsible for ad-related interactions.
  * @implements {shaka.extern.IAdManager}
+ * @implements {shaka.util.IReleasable}
  */
 shaka.ads.AdManager = class extends shaka.util.FakeEventTarget {
   /** */
@@ -2723,6 +2729,10 @@ shaka.ads.AdManager = class extends shaka.util.FakeEventTarget {
    * @override
    */
   initClientSide(adContainer, video) {}
+  /**
+   * @override
+   */
+  release() {}
   /**
   * @override
   */
@@ -3360,6 +3370,175 @@ shaka.polyfill = class {
    *   will be executed before lower priority ones.  Default is 0.
    */
   static register(polyfill, priority) {}
+};
+/**
+ * @summary A polyfill to add support for EncryptionScheme queries in EME.
+ * @see https://wicg.github.io/encrypted-media-encryption-scheme/
+ * @see https://github.com/w3c/encrypted-media/pull/457
+ * @see https://github.com/google/eme-encryption-scheme-polyfill
+ */
+shaka.polyfill.EncryptionScheme = class {
+  /**
+   * Install the polyfill if needed.
+   * @suppress {missingRequire}
+   */
+  static install() {}
+};
+/**
+ * @summary A polyfill to unify fullscreen APIs across browsers.
+ * Many browsers have prefixed fullscreen methods on Element and document.
+ * See {@link https://mzl.la/2K0xcHo Using fullscreen mode} on MDN for more
+ * information.
+ */
+shaka.polyfill.Fullscreen = class {
+  /**
+   * Install the polyfill if needed.
+   */
+  static install() {}
+};
+/**
+ * @summary A polyfill to patch math round bug on some browsers.
+ * @see https://stackoverflow.com/q/12830742
+ */
+shaka.polyfill.MathRound = class {
+  /**
+   * Install the polyfill if needed.
+   */
+  static install() {}
+};
+/**
+ * @summary A polyfill to provide navigator.mediaCapabilities on all browsers.
+ * This is necessary for Tizen 3, Xbox One and possibly others we have yet to
+ * discover.
+ */
+shaka.polyfill.MediaCapabilities = class {
+  /**
+   * Install the polyfill if needed.
+   * @suppress {const}
+   */
+  static install() {}
+};
+/**
+ * A copy of the MediaCapabilities instance, to prevent Safari from
+ * garbage-collecting the polyfilled method on it.  We make it public and export
+ * it to ensure that it is not stripped out by the compiler.
+ * @type {MediaCapabilities}
+ */
+shaka.polyfill.MediaCapabilities.originalMcap;
+/**
+ * @summary A polyfill to patch MSE bugs.
+ */
+shaka.polyfill.MediaSource = class {
+  /**
+   * Install the polyfill if needed.
+   */
+  static install() {}
+};
+/**
+ * @summary A polyfill for systems that do not implement screen.orientation.
+ * For now, this only handles systems that implement the deprecated
+ * window.orientation feature... e.g. iPad.
+ */
+shaka.polyfill.Orientation = class {
+  /**
+   * Install the polyfill if needed.
+   */
+  static install() {}
+};
+/**
+ * @summary A polyfill to implement modern, standardized EME on top of Apple's
+ * prefixed EME in Safari.
+ */
+shaka.polyfill.PatchedMediaKeysApple = class {
+  /**
+   * Installs the polyfill if needed.
+   */
+  static install() {}
+};
+/**
+ * @summary A polyfill to implement
+ * {@link https://bit.ly/EmeMar15 EME draft 12 March 2015}
+ * on top of ms-prefixed
+ * {@link https://www.w3.org/TR/2014/WD-encrypted-media-20140218/ EME v20140218}
+ */
+shaka.polyfill.PatchedMediaKeysMs = class {
+  /**
+   * Installs the polyfill if needed.
+   */
+  static install() {}
+};
+/**
+ * @summary A polyfill to stub out
+ * {@link https://bit.ly/EmeMar15 EME draft 12 March 2015} on browsers without
+ * EME.
+ * All methods will fail.
+ */
+shaka.polyfill.PatchedMediaKeysNop = class {
+  /**
+   * Installs the polyfill if needed.
+   */
+  static install() {}
+};
+/**
+ * @summary A polyfill to implement
+ * {@link https://bit.ly/EmeMar15 EME draft 12 March 2015} on top of
+ * webkit-prefixed {@link https://bit.ly/Eme01b EME v0.1b}.
+ */
+shaka.polyfill.PatchedMediaKeysWebkit = class {
+  /**
+   * Installs the polyfill if needed.
+   */
+  static install() {}
+};
+/**
+ * @summary A polyfill to provide PiP support in Safari.
+ * Note that Safari only supports PiP on video elements, not audio.
+ */
+shaka.polyfill.PiPWebkit = class {
+  /**
+   * Install the polyfill if needed.
+   */
+  static install() {}
+};
+/**
+ * @summary A polyfill to provide navigator.storage.estimate in old
+ * webkit browsers.
+ * See: https://developers.google.com/web/updates/2017/08/estimating-available-storage-space#the-present
+ */
+shaka.polyfill.StorageEstimate = class {
+  /**
+   * Install the polyfill if needed.
+   */
+  static install() {}
+};
+/**
+ * @summary A polyfill to silence the play() Promise in HTML5 video.
+ */
+shaka.polyfill.VideoPlayPromise = class {
+  /**
+   * Install the polyfill if needed.
+   */
+  static install() {}
+};
+/**
+ * @summary A polyfill to provide MSE VideoPlaybackQuality metrics.
+ * Many browsers do not yet provide this API, and Chrome currently provides
+ * similar data through individual prefixed attributes on HTMLVideoElement.
+ */
+shaka.polyfill.VideoPlaybackQuality = class {
+  /**
+   * Install the polyfill if needed.
+   */
+  static install() {}
+};
+/**
+ * @summary A polyfill to provide VTTCue.
+ */
+shaka.polyfill.VTTCue = class {
+  /**
+   * Install the polyfill if needed.
+   */
+  static install() {}
 };
 /**
  * LRC file format: https://en.wikipedia.org/wiki/LRC_(file_format)
