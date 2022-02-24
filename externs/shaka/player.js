@@ -625,7 +625,8 @@ shaka.extern.DrmConfiguration;
  *   ignoreSuggestedPresentationDelay: boolean,
  *   ignoreEmptyAdaptationSet: boolean,
  *   ignoreMaxSegmentDuration: boolean,
- *   keySystemsByURI: !Object.<string, string>
+ *   keySystemsByURI: !Object.<string, string>,
+ *   requestInterval: number
  * }}
  *
  * @property {string} clockSyncUri
@@ -675,6 +676,9 @@ shaka.extern.DrmConfiguration;
  * @property {Object.<string, string>} keySystemsByURI
  *   A map of scheme URI to key system name. Defaults to default key systems
  *   mapping handled by Shaka.
+ * @property {number} requestInterval
+ *   Time in seconds to determine the timeout to request the next live manifest.
+ *   <code>requestInterval</code> from manifest. Defaults to <code>0</code>*
  * @exportDoc
  */
 shaka.extern.DashManifestConfiguration;
