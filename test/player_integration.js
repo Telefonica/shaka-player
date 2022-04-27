@@ -4,22 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-goog.require('goog.Uri');
-goog.require('shaka.Player');
-goog.require('shaka.log');
-goog.require('shaka.media.DrmEngine');
-goog.require('shaka.media.TimeRangesUtils');
-goog.require('shaka.test.FakeAbrManager');
-goog.require('shaka.test.FakeTextDisplayer');
-goog.require('shaka.test.Loader');
-goog.require('shaka.test.TestScheme');
-goog.require('shaka.test.UiUtils');
-goog.require('shaka.test.Util');
-goog.require('shaka.test.Waiter');
-goog.require('shaka.util.EventManager');
-goog.require('shaka.util.Functional');
-goog.require('shaka.util.Iterables');
-
 describe('Player', () => {
   /** @type {!jasmine.Spy} */
   let onErrorSpy;
@@ -53,6 +37,7 @@ describe('Player', () => {
     // Grab event manager from the uncompiled library:
     eventManager = new shaka.util.EventManager();
     waiter = new shaka.test.Waiter(eventManager);
+    waiter.setPlayer(player);
 
     onErrorSpy = jasmine.createSpy('onError');
     onErrorSpy.and.callFake((event) => {
@@ -611,7 +596,9 @@ describe('Player', () => {
       eventManager.listen(video, 'waiting', checkOnEvent);
       eventManager.listen(player, 'trackschanged', checkOnEvent);
 
-      const waiter = (new shaka.test.Waiter(eventManager)).timeoutAfter(10);
+      const waiter = new shaka.test.Waiter(eventManager)
+          .setPlayer(player)
+          .timeoutAfter(10);
       const canPlayThrough = waiter.waitForEvent(video, 'canplaythrough');
 
       await player.load('test:sintel_compiled', 5);
@@ -678,7 +665,9 @@ describe('Player', () => {
       eventManager.listen(player, 'error', Util.spyFunc(onErrorSpy));
       /** @type {shaka.test.Waiter} */
       const waiter = new shaka.test.Waiter(eventManager)
-          .timeoutAfter(20).failOnTimeout(true);
+          .setPlayer(player)
+          .timeoutAfter(20)
+          .failOnTimeout(true);
       await waiter.waitForEnd(video);
 
       // The stream should have transitioned to VOD by now.
@@ -686,7 +675,7 @@ describe('Player', () => {
 
       // Check that the final seek range is as expected.
       const seekRange = player.seekRange();
-      expect(seekRange.end).toBe(14);
+      expect(seekRange.end).toBeCloseTo(14);
     });
   });
 
@@ -703,6 +692,7 @@ describe('Player', () => {
       player.addEventListener('buffering', Util.spyFunc(onBuffering));
 
       waiter = new shaka.test.Waiter(eventManager)
+          .setPlayer(player)
           .timeoutAfter(10)
           .failOnTimeout(true);
     });
@@ -816,8 +806,7 @@ describe('Player', () => {
     }
 
     async function waitUntilBuffered(amount) {
-      for (const _ of shaka.util.Iterables.range(25)) {
-        shaka.util.Functional.ignored(_);
+      for (let i = 0; i < 25; i++) {
         // We buffer from an internal segment, so this shouldn't take long to
         // buffer.
         await Util.delay(0.1);  // eslint-disable-line no-await-in-loop
@@ -894,7 +883,9 @@ describe('Player', () => {
 
       /** @type {shaka.test.Waiter} */
       const waiter = new shaka.test.Waiter(eventManager)
-          .timeoutAfter(1).failOnTimeout(true);
+          .setPlayer(player)
+          .timeoutAfter(1)
+          .failOnTimeout(true);
 
       await waiter.waitForPromise(abrEnabled, 'AbrManager enabled');
 
@@ -914,7 +905,9 @@ describe('Player', () => {
 
       /** @type {shaka.test.Waiter} */
       const waiter = new shaka.test.Waiter(eventManager)
-          .timeoutAfter(1).failOnTimeout(true);
+          .setPlayer(player)
+          .timeoutAfter(1)
+          .failOnTimeout(true);
 
       await waiter.waitForPromise(abrEnabled, 'AbrManager enabled');
 

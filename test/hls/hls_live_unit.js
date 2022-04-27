@@ -4,18 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-goog.require('goog.asserts');
-goog.require('shaka.hls.HlsParser');
-goog.require('shaka.net.NetworkingEngine');
-goog.require('shaka.test.FakeNetworkingEngine');
-goog.require('shaka.test.ManifestParser');
-goog.require('shaka.test.Util');
-goog.require('shaka.util.Functional');
-goog.require('shaka.util.Iterables');
-goog.require('shaka.util.PlayerConfiguration');
-goog.require('shaka.util.Uint8ArrayUtils');
-goog.requireType('shaka.util.PublicPromise');
-
 describe('HlsParser live', () => {
   const ManifestParser = shaka.test.ManifestParser;
 
@@ -435,8 +423,8 @@ describe('HlsParser live', () => {
       '#EXT-X-MAP:URI="init.mp4",BYTERANGE="616@0"\n',
       '#EXT-X-MEDIA-SEQUENCE:0\n',
     ].join('');
-    for (const _ of shaka.util.Iterables.range(1000)) {
-      shaka.util.Functional.ignored(_);
+
+    for (let i = 0; i < 1000; i++) {
       mediaWithManySegments += '#EXTINF:2,\n';
       mediaWithManySegments += 'main.mp4\n';
     }

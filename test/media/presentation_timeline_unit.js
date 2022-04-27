@@ -4,9 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-goog.require('shaka.media.PresentationTimeline');
-goog.require('shaka.test.ManifestParser');
-
 describe('PresentationTimeline', () => {
   const originalDateNow = Date.now;
   const makeSegmentReference = (startTime, endTime) => {
@@ -401,7 +398,7 @@ describe('PresentationTimeline', () => {
       const timeline = makeVodTimeline(/* duration= */ 60);
       // Seeking to this exact number may result in seeking to slightly less
       // than that, due to rounding.
-      timeline.setUserSeekStart(1.458666666666666666666666);
+      timeline.setUserSeekStart(1.458666666666666);
       // So the safe range start should be slightly higher, with fewer digits.
       expect(timeline.getSafeSeekRangeStart(0)).toBe(1.459);
     });

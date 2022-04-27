@@ -4,30 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-goog.require('goog.asserts');
-goog.require('shaka.Player');
-goog.require('shaka.log');
-goog.require('shaka.media.BufferingObserver');
-goog.require('shaka.media.ManifestParser');
-goog.require('shaka.media.PresentationTimeline');
-goog.require('shaka.media.SegmentReference');
-goog.require('shaka.media.SegmentIndex');
-goog.require('shaka.test.FakeAbrManager');
-goog.require('shaka.test.FakeDrmEngine');
-goog.require('shaka.test.FakeManifestParser');
-goog.require('shaka.test.FakeNetworkingEngine');
-goog.require('shaka.test.FakePlayhead');
-goog.require('shaka.test.FakeStreamingEngine');
-goog.require('shaka.test.FakeTextDisplayer');
-goog.require('shaka.test.FakeVideo');
-goog.require('shaka.test.ManifestGenerator');
-goog.require('shaka.test.Util');
-goog.require('shaka.util.ConfigUtils');
-goog.require('shaka.util.Error');
-goog.require('shaka.util.Iterables');
-goog.require('shaka.util.ManifestParserUtils');
-goog.requireType('shaka.media.Playhead');
-
 describe('Player', () => {
   const ContentType = shaka.util.ManifestParserUtils.ContentType;
   const Util = shaka.test.Util;
@@ -687,9 +663,9 @@ describe('Player', () => {
     });
 
     it('configures play and seek range for VOD', async () => {
-      player.configure({playRangeStart: 5, playRangeEnd: 10});
       const timeline = new shaka.media.PresentationTimeline(300, 0);
       timeline.setStatic(true);
+      timeline.setDuration(300);
       manifest = shaka.test.ManifestGenerator.generate((manifest) => {
         manifest.presentationTimeline = timeline;
         manifest.addVariant(0, (variant) => {
@@ -697,7 +673,46 @@ describe('Player', () => {
         });
       });
       goog.asserts.assert(manifest, 'manifest must be non-null');
+
+      player.configure({playRangeStart: 5, playRangeEnd: 10});
       await player.load(fakeManifestUri, 0, fakeMimeType);
+
+      const seekRange = player.seekRange();
+      expect(seekRange.start).toBe(5);
+      expect(seekRange.end).toBe(10);
+    });
+
+    // Test for https://github.com/shaka-project/shaka-player/issues/4026
+    it('configures play and seek range with notifySegments', async () => {
+      const timeline = new shaka.media.PresentationTimeline(300, 0);
+      timeline.setStatic(true);
+      // This duration is used by useSegmentTemplate below to decide how many
+      // references to generate.
+      timeline.setDuration(300);
+      manifest = shaka.test.ManifestGenerator.generate((manifest) => {
+        manifest.presentationTimeline = timeline;
+        manifest.addVariant(0, (variant) => {
+          variant.addVideo(1, (stream) => {
+            stream.useSegmentTemplate(
+                '$Number$.mp4', /* segmentDuration= */ 10);
+          });
+        });
+      });
+      goog.asserts.assert(manifest, 'manifest must be non-null');
+
+      // Explicitly notify the timeline of the segment references.
+      const videoStream = manifest.variants[0].video;
+      await videoStream.createSegmentIndex();
+      goog.asserts.assert(videoStream.segmentIndex,
+          'SegmentIndex must be non-null');
+      const references = Array.from(videoStream.segmentIndex);
+      goog.asserts.assert(references.length != 0,
+          'Must have references for this test!');
+      timeline.notifySegments(references);
+
+      player.configure({playRangeStart: 5, playRangeEnd: 10});
+      await player.load(fakeManifestUri, 0, fakeMimeType);
+
       const seekRange = player.seekRange();
       expect(seekRange.start).toBe(5);
       expect(seekRange.end).toBe(10);
@@ -2112,8 +2127,8 @@ describe('Player', () => {
     async function runTest(languages, preference, expectedIndex) {
       // A manifest we can use to test language selection.
       manifest = shaka.test.ManifestGenerator.generate((manifest) => {
-        const enumerate = (it) => shaka.util.Iterables.enumerate(it);
-        for (const {i, item: lang} of enumerate(languages)) {
+        for (let i = 0; i < languages.length; i++) {
+          const lang = languages[i];
           if (lang.charAt(0) == '*') {
             manifest.addVariant(i, (variant) => {
               variant.primary = true;
