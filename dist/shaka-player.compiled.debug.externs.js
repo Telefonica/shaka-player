@@ -1593,6 +1593,14 @@ shaka.media.PresentationTimeline = class {
    */
   getPresentationStartTime() {}
   /**
+   * @return {?number} The end time of the last available segment
+   */
+  getMaxSegmentEndTime() {}
+  /**
+   * @return {number} availabilityTimeOffset parameter
+   */
+  getAvailabilityTimeOffset() {}
+  /**
    * Sets the clock offset, which is the difference between the client's clock
    * and the server's clock, in milliseconds (i.e., serverTime = Date.now() +
    * clockOffset).
@@ -1677,8 +1685,9 @@ shaka.media.PresentationTimeline = class {
    * Gets the presentation's current segment availability end time.  Segments
    * starting after this time should be assumed to be unavailable.
    * @return {number} The current segment availability end time, in seconds,
-   *   relative to the start of the presentation.  Always returns the
-   *   presentation's duration for video-on-demand.
+   *   relative to the start of the presentation.  For VOD, the availability
+   *   end time is the content's duration.  If the Player's playRangeEnd
+   *   configuration is used, this can override the duration.
    */
   getSegmentAvailabilityEnd() {}
   /**
@@ -3375,7 +3384,7 @@ shaka.polyfill = class {
  * @summary A polyfill to add support for EncryptionScheme queries in EME.
  * @see https://wicg.github.io/encrypted-media-encryption-scheme/
  * @see https://github.com/w3c/encrypted-media/pull/457
- * @see https://github.com/google/eme-encryption-scheme-polyfill
+ * @see https://github.com/shaka-project/eme-encryption-scheme-polyfill
  */
 shaka.polyfill.EncryptionScheme = class {
   /**

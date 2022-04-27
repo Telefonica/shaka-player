@@ -864,12 +864,14 @@ declare namespace shaka.media {
   class PresentationTimeline {
     private noStructuralTyping_shaka_media_PresentationTimeline : any;
     constructor (presentationStartTime : number | null , presentationDelay : number , autoCorrectDrift ? : boolean ) ;
+    getAvailabilityTimeOffset ( ) : number ;
     /**
      * Gets the presentation delay in seconds.
      */
     getDelay ( ) : number ;
     getDuration ( ) : number ;
     getMaxSegmentDuration ( ) : number ;
+    getMaxSegmentEndTime ( ) : number | null ;
     getPresentationStartTime ( ) : number | null ;
     /**
      * Gets the seek range start time, offset by the given amount.  This is used
@@ -4535,3 +4537,5 @@ declare namespace shaka.extern {
 declare namespace shaka.extern {
   type UIVolumeBarColors = { base : string , level : string } ;
 }
+
+export default shaka;
