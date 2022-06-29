@@ -72,6 +72,11 @@
  *   The minimum number of seconds of content that must be buffered before
  *   playback can begin.  Can be overridden by a higher value from the Player
  *   configuration.
+ * @property {Object} lowLatency
+ *   <i>Required.</i> <br>
+ *   Object with to params indicating
+ *   - enabled: low latency is enabled in the manifest
+ *   - target: target latency
  *
  * @exportDoc
  */
