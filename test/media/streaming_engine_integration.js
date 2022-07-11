@@ -609,6 +609,7 @@ describe('StreamingEngine', () => {
         minBufferTime: 2,
         textStreams: [],
         imageStreams: [],
+        lowLatency: -1,
         variants: [{
           id: 1,
           video: {

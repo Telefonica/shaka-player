@@ -143,6 +143,7 @@ describe('Playhead', () => {
       imageStreams: [],
       presentationTimeline: timeline,
       minBufferTime: 10,
+      lowLatency: -1,
       offlineSessionIds: [],
     };
 

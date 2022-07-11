@@ -17,7 +17,8 @@
  *   textStreams: !Array.<shaka.extern.Stream>,
  *   imageStreams: !Array.<shaka.extern.Stream>,
  *   offlineSessionIds: !Array.<string>,
- *   minBufferTime: number
+ *   minBufferTime: number,
+ *   lowLatency: number
  * }}
  *
  * @description
@@ -72,12 +73,12 @@
  *   The minimum number of seconds of content that must be buffered before
  *   playback can begin.  Can be overridden by a higher value from the Player
  *   configuration.
- * @property {Object} lowLatency
- *   <i>Required.</i> <br>
- *   Object with to params indicating
- *   - enabled: low latency is enabled in the manifest
- *   - target: target latency
- *
+ * @property {number} lowLatency
+ *   <i>Defaults to -1.</i> <br>
+ *   -1: low latency disabled
+ *    0: low latency enabled but no target value
+ *   >0: low latency target value
+  *
  * @exportDoc
  */
 shaka.extern.Manifest;

@@ -275,6 +275,7 @@ shaka.test.StreamingEngineUtil = class {
       variants: [],
       textStreams: [],
       imageStreams: [],
+      lowLatency: -1,
     };
 
     /** @type {shaka.extern.Variant} */

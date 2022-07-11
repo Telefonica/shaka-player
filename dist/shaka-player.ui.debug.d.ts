@@ -3657,7 +3657,7 @@ declare namespace shaka.extern {
 }
 // Generated from /home/jobispo/dev/stv-shaka-player/externs/shaka/manifest.js
 declare namespace shaka.extern {
-  type Manifest = { imageStreams : shaka.extern.Stream [] , minBufferTime : number , offlineSessionIds : string [] , presentationTimeline : shaka.media.PresentationTimeline , textStreams : shaka.extern.Stream [] , variants : shaka.extern.Variant [] } ;
+  type Manifest = { imageStreams : shaka.extern.Stream [] , lowLatency : number , minBufferTime : number , offlineSessionIds : string [] , presentationTimeline : shaka.media.PresentationTimeline , textStreams : shaka.extern.Stream [] , variants : shaka.extern.Variant [] } ;
 }
 // Generated from /home/jobispo/dev/stv-shaka-player/externs/shaka/manifest.js
 declare namespace shaka.extern {

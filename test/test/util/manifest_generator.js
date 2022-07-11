@@ -95,6 +95,8 @@ shaka.test.ManifestGenerator.Manifest = class {
     this.offlineSessionIds = [];
     /** @type {number} */
     this.minBufferTime = 0;
+    /** @type {number} */
+    this.lowLatency = -1;
 
     /** @type {shaka.extern.Manifest} */
     const foo = this;
