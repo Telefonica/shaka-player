@@ -1,8 +1,10 @@
 *.pyc
 *~
 node_modules
-dist/
 docs/api/
 coverage/
 .DS_Store
 .vscode
+package-lock.json
+workload-install.sh
+package-lock.json
