@@ -123,7 +123,8 @@ shaka.extern.StateChange;
  * @property {number} manifestTimeSeconds
  *   The amount of time it took to download and parse the manifest.
  * @property {number} drmTimeSeconds
- *   The amount of time it took to download the first drm key.
+ *   The amount of time it took to download the first drm key, and load that key
+ *   into the drm system.
  * @property {number} playTime
  *   The total time spent in a playing state in seconds.
  * @property {number} pauseTime
@@ -612,9 +613,7 @@ shaka.extern.AdvancedDrmConfiguration;
  *   clearKeys: !Object.<string, string>,
  *   delayLicenseRequestUntilPlayed: boolean,
  *   advanced: Object.<string, shaka.extern.AdvancedDrmConfiguration>,
- *   initDataTransform:
- *       ((function(!Uint8Array, string, ?shaka.extern.DrmInfo):!Uint8Array)|
- *         undefined),
+ *   initDataTransform:(shaka.extern.InitDataTransform|undefined),
  *   logLicenseExchange: boolean,
  *   updateExpirationTime: number,
  *   preferredKeySystems: !Array.<string>
@@ -638,10 +637,7 @@ shaka.extern.AdvancedDrmConfiguration;
  *   <i>Optional.</i> <br>
  *   A dictionary which maps key system IDs to advanced DRM configuration for
  *   those key systems.
- * @property
- *     {((function(!Uint8Array, string, ?shaka.extern.DrmInfo):!Uint8Array)|
- *        undefined)}
- *   initDataTransform
+ * @property {shaka.extern.InitDataTransform|undefined} initDataTransform
  *   <i>Optional.</i><br>
  *   If given, this function is called with the init data from the
  *   manifest/media and should return the (possibly transformed) init data to
@@ -662,6 +658,17 @@ shaka.extern.AdvancedDrmConfiguration;
  * @exportDoc
  */
 shaka.extern.DrmConfiguration;
+
+/**
+ * @typedef {function(!Uint8Array, string, ?shaka.extern.DrmInfo):!Uint8Array}
+ *
+ * @description
+ * A callback function to handle custom content ID signaling for FairPlay
+ * content.
+ *
+ * @exportDoc
+ */
+shaka.extern.InitDataTransform;
 
 
 /**

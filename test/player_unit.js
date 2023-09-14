@@ -370,6 +370,60 @@ describe('Player', () => {
         expect(streamingEngine.unloadTextStream).not.toHaveBeenCalled();
       });
     });
+
+    describe('when config.streaming.preferNativeHls is set to true', () => {
+      beforeEach(() => {
+        shaka.media.ManifestParser.registerParserByMime(
+            'application/x-mpegurl',
+            () => new shaka.test.FakeManifestParser(manifest));
+      });
+
+      afterEach(() => {
+        shaka.media.ManifestParser.unregisterParserByMime(
+            'application/x-mpegurl');
+        video.canPlayType.calls.reset();
+      });
+
+      it('only applies to HLS streams', async () => {
+        video.canPlayType.and.returnValue('maybe');
+        spyOn(shaka.util.Platform, 'anyMediaElement').and.returnValue(video);
+        spyOn(shaka.util.Platform, 'supportsMediaSource').and.returnValue(true);
+        spyOn(shaka.util.Platform, 'isApple').and.returnValue(false);
+        // Make sure player.load() resolves for src=
+        spyOn(shaka.util.MediaReadyState, 'waitForReadyState').and.callFake(
+            (mediaElement, readyState, eventManager, callback) => {
+              callback();
+            });
+
+        player.configure({
+          streaming: {
+            preferNativeHls: true,
+            useNativeHlsOnSafari: false,
+          },
+        });
+
+        await player.load(fakeManifestUri, undefined, 'application/x-mpegurl');
+
+        expect(player.getLoadMode()).toBe(shaka.Player.LoadMode.SRC_EQUALS);
+      });
+
+      it('does not apply to non-HLS streams', async () => {
+        video.canPlayType.and.returnValue('maybe');
+        spyOn(shaka.util.Platform, 'supportsMediaSource').and.returnValue(true);
+        spyOn(shaka.util.Platform, 'isApple').and.returnValue(false);
+
+        player.configure({
+          streaming: {
+            preferNativeHls: true,
+            useNativeHlsOnSafari: false,
+          },
+        });
+
+        await player.load(fakeManifestUri, 0, fakeMimeType);
+
+        expect(player.getLoadMode()).toBe(shaka.Player.LoadMode.MEDIA_SOURCE);
+      });
+    });
   });  // describe('load/unload')
 
   describe('getConfiguration', () => {
@@ -3185,7 +3239,9 @@ describe('Player', () => {
           variant.addAudio(0, (stream) => {
             stream.channelsCount = 6;
             stream.audioSamplingRate = 48000;
-            stream.codecs = 'ac-3';
+            // ac-3 is rewritten as ec-3 on Tizen, so for the stability of this
+            // test case, use ec-3.
+            stream.codecs = 'ec-3';
           });
         });
 
@@ -3210,7 +3266,7 @@ describe('Player', () => {
       expect(abrManager.variants.length).toBe(1);
       // It should be the 6-channel variant, based on our preference.
       expect(abrManager.variants[0].audio.channelsCount).toBe(6);
-      expect(abrManager.variants[0].audio.codecs).toBe('ac-3');
+      expect(abrManager.variants[0].audio.codecs).toBe('ec-3');
     });
   });
 

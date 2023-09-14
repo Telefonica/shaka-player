@@ -16,7 +16,7 @@ on:
 # old one.  If a PR is updated and a new test run is started, the old test run
 # will be cancelled automatically to conserve resources.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.inputs.ref || github.ref }}
+  group: ${{ github.workflow }}-${{ inputs.ref || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -27,7 +27,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.inputs.ref || github.ref }}
+          ref: ${{ inputs.ref || github.ref }}
 
       - name: Lint
         run: python build/check.py
@@ -87,10 +87,23 @@ jobs:
         if: matrix.os == 'ubuntu-latest' && matrix.browser == 'Firefox'
         run: sudo apt -y update && sudo apt -y install ffmpeg
 
+      # Edge 107 fails DRM tests due to an outdated Widevine CDM.  Force Edge
+      # to update to 108+.
+      - name: Upgrade Edge
+        if: matrix.os == 'ubuntu-latest' && matrix.browser == 'Edge'
+        run: |
+          # If it's Edge 107, update it.  Otherwise, don't.  This way, we don't
+          # break something later when Edge 108+ is available by default in
+          # GitHub Actions.
+          if apt show microsoft-edge-stable | grep -q '^Version: 107'; then
+            wget https://packages.microsoft.com/repos/edge/pool/main/m/microsoft-edge-stable/microsoft-edge-stable_108.0.1462.46-1_amd64.deb
+            sudo dpkg -i microsoft-edge-stable_108.0.1462.46-1_amd64.deb
+          fi
+
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.inputs.ref || github.ref }}
+          ref: ${{ inputs.ref || github.ref }}
 
       # Older versions of Safari can be installed, but not to the root, and it
       # can't replace the standard version, at least not on GitHub's VMs.  If
@@ -193,7 +206,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.inputs.ref || github.ref }}
+          ref: ${{ inputs.ref || github.ref }}
 
       - name: Docker
         run: |
