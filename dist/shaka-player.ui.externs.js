@@ -2034,27 +2034,6 @@ shaka.media.MetaSegmentIndex = class extends shaka.media.SegmentIndex {
   updateEvery(interval, updateCallback) {}
 };
 /**
- * @summary A networking plugin to handle http and https URIs via the Fetch API.
- */
-shaka.net.HttpFetchPlugin = class {
-  /**
-   * @param {string} uri
-   * @param {shaka.extern.Request} request
-   * @param {shaka.net.NetworkingEngine.RequestType} requestType
-   * @param {shaka.extern.ProgressUpdated} progressUpdated Called when a
-   *   progress event happened.
-   * @return {!shaka.extern.IAbortableOperation.<shaka.extern.Response>}
-   */
-  static parse(uri, request, requestType, progressUpdated) {}
-  /**
-   * Determine if the Fetch API is supported in the browser. Note: this is
-   * deliberately exposed as a method to allow the client app to use the same
-   * logic as Shaka when determining support.
-   * @return {boolean}
-   */
-  static isSupported() {}
-};
-/**
  * A text displayer plugin using the browser's native VTTCue interface.
  * @implements {shaka.extern.TextDisplayer}
  */
@@ -3283,6 +3262,27 @@ shaka.hls.HlsParser = class {
    * @override
    */
   onExpirationUpdated(sessionId, expiration) {}
+};
+/**
+ * @summary A networking plugin to handle http and https URIs via the Fetch API.
+ */
+shaka.net.HttpFetchPlugin = class {
+  /**
+   * @param {string} uri
+   * @param {shaka.extern.Request} request
+   * @param {shaka.net.NetworkingEngine.RequestType} requestType
+   * @param {shaka.extern.ProgressUpdated} progressUpdated Called when a
+   *   progress event happened.
+   * @return {!shaka.extern.IAbortableOperation.<shaka.extern.Response>}
+   */
+  static parse(uri, request, requestType, progressUpdated) {}
+  /**
+   * Determine if the Fetch API is supported in the browser. Note: this is
+   * deliberately exposed as a method to allow the client app to use the same
+   * logic as Shaka when determining support.
+   * @return {boolean}
+   */
+  static isSupported() {}
 };
 /**
  * @summary A networking plugin to handle http and https URIs via XHR.
