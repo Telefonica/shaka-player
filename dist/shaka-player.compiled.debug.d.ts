@@ -4068,7 +4068,7 @@ declare namespace shaka.extern {
 }
 // Generated from /home/jobispo/dev/stv-shaka-player/externs/shaka/player.js
 declare namespace shaka.extern {
-  type DashManifestConfiguration = { autoCorrectDrift : boolean , clockSyncUri : string , disableXlinkProcessing : boolean , ignoreDrmInfo : boolean , ignoreEmptyAdaptationSet : boolean , ignoreMaxSegmentDuration : boolean , ignoreMinBufferTime : boolean , ignoreSuggestedPresentationDelay : boolean , initialSegmentLimit : number , keySystemsByURI : { [ key: string ]: string } , manifestPreprocessor : (a : Element ) => any , sequenceMode : boolean , xlinkFailGracefully : boolean } ;
+  type DashManifestConfiguration = { autoCorrectDrift : boolean , clockSyncUri : string , disableXlinkProcessing : boolean , ignoreDrmInfo : boolean , ignoreEmptyAdaptationSet : boolean , ignoreMaxSegmentDuration : boolean , ignoreMinBufferTime : boolean , ignoreSuggestedPresentationDelay : boolean , initialSegmentLimit : number , keySystemsByURI : { [ key: string ]: string } , manifestPreprocessor : (a : Element ) => any , requestInterval : number , sequenceMode : boolean , xlinkFailGracefully : boolean } ;
 }
 // Generated from /home/jobispo/dev/stv-shaka-player/externs/shaka/player.js
 declare namespace shaka.extern {

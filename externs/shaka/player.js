@@ -769,7 +769,8 @@ shaka.extern.InitDataTransform;
  *   ignoreMaxSegmentDuration: boolean,
  *   keySystemsByURI: !Object.<string, string>,
  *   manifestPreprocessor: function(!Element),
- *   sequenceMode: boolean
+ *   sequenceMode: boolean,
+ *   requestInterval: number
  * }}
  *
  * @property {string} clockSyncUri
@@ -827,6 +828,9 @@ shaka.extern.InitDataTransform;
  *   If true, the media segments are appended to the SourceBuffer in
  *   "sequence mode" (ignoring their internal timestamps).
  *   <i>Defaults to <code>false</code>.</i>
+ * @property {number} requestInterval
+ *   Time in seconds to determine the timeout to request the next live manifest.
+ *   <code>requestInterval</code> from manifest. Defaults to <code>0</code>.
  * @exportDoc
  */
 shaka.extern.DashManifestConfiguration;
