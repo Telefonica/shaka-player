@@ -98,8 +98,7 @@
   "license": "Apache-2.0",
   "scripts": {
     "prepack": "clean-package",
-    "postpack": "clean-package restore",
-    "prepublishOnly": "python build/checkversion.py && python build/all.py --force"
+    "postpack": "clean-package restore"
   },
   "dependencies": {
     "eme-encryption-scheme-polyfill": "^2.1.1"
