@@ -2248,6 +2248,14 @@ shaka.Player = class extends shaka.util.FakeEventTarget {
    */
   unload(initializeMediaSource) {}
   /**
+   * Provides a way to update the stream start position during the media loading
+   * process. Can for example be called from the <code>manifestparsed</code>
+   * event handler to update the start position based on information in the
+   * manifest.
+   * @param {number} startTime
+   */
+  updateStartTime(startTime) {}
+  /**
    * Tell the player to load the content at <code>assetUri</code> and start
    * playback at <code>startTime</code>. Before calling <code>load</code>,
    * a call to <code>attach</code> must have succeeded.

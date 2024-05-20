@@ -374,6 +374,13 @@ declare namespace shaka {
      */
     unload (initializeMediaSource ? : boolean ) : Promise < any > ;
     /**
+     * Provides a way to update the stream start position during the media loading
+     * process. Can for example be called from the <code>manifestparsed</code>
+     * event handler to update the start position based on information in the
+     * manifest.
+     */
+    updateStartTime (startTime : number ) : any ;
+    /**
      * Return whether the browser provides basic support.  If this returns false,
      * Shaka Player cannot be used at all.  In this case, do not construct a
      * Player instance and do not use the library.
