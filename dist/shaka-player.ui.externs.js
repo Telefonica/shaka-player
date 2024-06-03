@@ -5067,6 +5067,16 @@ shaka.polyfill.PatchedMediaKeysApple = class {
   static uninstall() {}
 };
 /**
+ * @summary A polyfill to fix setServerCertificate implementation on
+ * older platforms which claim to support modern EME.
+ */
+shaka.polyfill.PatchedMediaKeysCert = class {
+  /**
+   * Installs the polyfill if needed.
+   */
+  static install() {}
+};
+/**
  * @summary A polyfill to stub out
  * {@link https://bit.ly/EmeMar15 EME draft 12 March 2015} on browsers without
  * EME.

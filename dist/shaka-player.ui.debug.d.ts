@@ -1890,6 +1890,16 @@ declare namespace shaka.polyfill {
 }
 // Generated from /home/jobispo/dev/stv-shaka-player/dist/shaka-player.ui.debug.externs.js
 declare namespace shaka.polyfill {
+  class PatchedMediaKeysCert {
+    private noStructuralTyping_shaka_polyfill_PatchedMediaKeysCert : any;
+    /**
+     * Installs the polyfill if needed.
+     */
+    static install ( ) : any ;
+  }
+}
+// Generated from /home/jobispo/dev/stv-shaka-player/dist/shaka-player.ui.debug.externs.js
+declare namespace shaka.polyfill {
   class PatchedMediaKeysNop {
     private noStructuralTyping_shaka_polyfill_PatchedMediaKeysNop : any;
     /**
@@ -4175,18 +4185,18 @@ declare namespace ಠ_ಠ.clutz {
     evaluate ( ) : any ;
   }
 }
-// Generated from /home/jobispo/dev/stv-shaka-player/externs/chromecast.js
+// Generated from /home/jobispo/dev/stv-shaka-player/externs/cast-sdk-v2.js
 declare namespace ಠ_ಠ.clutz {
   function __onGCastApiAvailable (a : boolean ) : any ;
 }
-// Generated from /home/jobispo/dev/stv-shaka-player/externs/chromecast.js
+// Generated from /home/jobispo/dev/stv-shaka-player/externs/cast-sdk-v2.js
 declare namespace cast.receiver {
   class CastChannel {
     private noStructuralTyping_cast_receiver_CastChannel : any;
     send (message : any ) : any ;
   }
 }
-// Generated from /home/jobispo/dev/stv-shaka-player/externs/chromecast.js
+// Generated from /home/jobispo/dev/stv-shaka-player/externs/cast-sdk-v2.js
 declare namespace cast.receiver {
   class CastMessageBus {
     private noStructuralTyping_cast_receiver_CastMessageBus : any;
@@ -4195,7 +4205,7 @@ declare namespace cast.receiver {
     onMessage : Function | null ;
   }
 }
-// Generated from /home/jobispo/dev/stv-shaka-player/externs/chromecast.js
+// Generated from /home/jobispo/dev/stv-shaka-player/externs/cast-sdk-v2.js
 declare namespace cast.receiver.CastMessageBus {
   class Event {
     private noStructuralTyping_cast_receiver_CastMessageBus_Event : any;
@@ -4203,7 +4213,7 @@ declare namespace cast.receiver.CastMessageBus {
     senderId : string ;
   }
 }
-// Generated from /home/jobispo/dev/stv-shaka-player/externs/chromecast.js
+// Generated from /home/jobispo/dev/stv-shaka-player/externs/cast-sdk-v2.js
 declare namespace cast.receiver {
   class CastReceiverManager {
     private noStructuralTyping_cast_receiver_CastReceiverManager : any;
@@ -4221,7 +4231,7 @@ declare namespace cast.receiver {
     static getInstance ( ) : cast.receiver.CastReceiverManager | null ;
   }
 }
-// Generated from /home/jobispo/dev/stv-shaka-player/externs/chromecast.js
+// Generated from /home/jobispo/dev/stv-shaka-player/externs/cast-sdk-v2.js
 declare namespace cast.receiver.media {
   enum MetadataType {
     GENERIC = 0.0 ,
@@ -4231,7 +4241,7 @@ declare namespace cast.receiver.media {
     TV_SHOW = 2.0 ,
   }
 }
-// Generated from /home/jobispo/dev/stv-shaka-player/externs/chromecast.js
+// Generated from /home/jobispo/dev/stv-shaka-player/externs/cast-sdk-v2.js
 declare namespace cast.receiver.system {
   class SystemVolumeData {
     private noStructuralTyping_cast_receiver_system_SystemVolumeData : any;
@@ -4239,14 +4249,14 @@ declare namespace cast.receiver.system {
     muted : boolean ;
   }
 }
-// Generated from /home/jobispo/dev/stv-shaka-player/externs/chromecast.js
+// Generated from /home/jobispo/dev/stv-shaka-player/externs/cast-sdk-v2.js
 declare namespace chrome.cast {
   class ApiConfig {
     private noStructuralTyping_chrome_cast_ApiConfig : any;
     constructor (sessionRequest : chrome.cast.SessionRequest | null , sessionListener : Function | null , receiverListener : Function | null , autoJoinPolicy ? : string , defaultActionPolicy ? : string ) ;
   }
 }
-// Generated from /home/jobispo/dev/stv-shaka-player/externs/chromecast.js
+// Generated from /home/jobispo/dev/stv-shaka-player/externs/cast-sdk-v2.js
 declare namespace chrome.cast {
   class Error {
     private noStructuralTyping_chrome_cast_Error : any;
@@ -4256,14 +4266,14 @@ declare namespace chrome.cast {
     details : object | null ;
   }
 }
-// Generated from /home/jobispo/dev/stv-shaka-player/externs/chromecast.js
+// Generated from /home/jobispo/dev/stv-shaka-player/externs/cast-sdk-v2.js
 declare namespace chrome.cast {
   class Receiver {
     private noStructuralTyping_chrome_cast_Receiver : any;
     friendlyName : string ;
   }
 }
-// Generated from /home/jobispo/dev/stv-shaka-player/externs/chromecast.js
+// Generated from /home/jobispo/dev/stv-shaka-player/externs/cast-sdk-v2.js
 declare namespace chrome.cast {
   class Session {
     private noStructuralTyping_chrome_cast_Session : any;
@@ -4279,20 +4289,32 @@ declare namespace chrome.cast {
     stop (successCallback : Function | null , errorCallback : Function | null ) : any ;
   }
 }
-// Generated from /home/jobispo/dev/stv-shaka-player/externs/chromecast.js
+// Generated from /home/jobispo/dev/stv-shaka-player/externs/cast-sdk-v2.js
 declare namespace chrome.cast {
   class SessionRequest {
     private noStructuralTyping_chrome_cast_SessionRequest : any;
     constructor (appId : string , capabilities : ( object | null ) [] | null , timeout : number | null , androidReceiverCompatible : boolean , credentialsData : object | null ) ;
   }
 }
-// Generated from /home/jobispo/dev/stv-shaka-player/externs/chromecast.js
+// Generated from /home/jobispo/dev/stv-shaka-player/externs/cast-sdk-v2.js
 declare namespace chrome.cast.SessionStatus {
   let STOPPED : string ;
 }
-// Generated from /home/jobispo/dev/stv-shaka-player/externs/chromecast.js
+// Generated from /home/jobispo/dev/stv-shaka-player/externs/cast-sdk-v2.js
 declare namespace chrome.cast {
   let isAvailable : boolean ;
+}
+// Generated from /home/jobispo/dev/stv-shaka-player/externs/cast-sdk-v3.js
+declare namespace cast.framework {
+  class CastReceiverContext {
+    private noStructuralTyping_cast_framework_CastReceiverContext : any;
+    start (options : cast.framework.CastReceiverOptions ) : cast.framework.CastReceiverContext ;
+    static getInstance ( ) : cast.framework.CastReceiverContext ;
+  }
+}
+// Generated from /home/jobispo/dev/stv-shaka-player/externs/cast-sdk-v3.js
+declare namespace cast.framework {
+  type CastReceiverOptions = { disableIdleTimeout : boolean , skipPlayersLoad : boolean , statusText : string } ;
 }
 // Generated from /home/jobispo/dev/stv-shaka-player/externs/cmcd.js
 declare namespace ಠ_ಠ.clutz {
