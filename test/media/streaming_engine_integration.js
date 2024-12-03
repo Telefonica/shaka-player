@@ -267,6 +267,7 @@ describe('StreamingEngine', () => {
       beforeAppendSegment: () => Promise.resolve(),
       onMetadata: () => {},
       disableStream: (stream, time) => false,
+      isHibernated: () => false,
     };
     streamingEngine = new shaka.media.StreamingEngine(
         /** @type {shaka.extern.Manifest} */(manifest), playerInterface);
