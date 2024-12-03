@@ -243,6 +243,11 @@ declare namespace shaka {
      */
     goToLive ( ) : any ;
     /**
+     * Sets the player to hibernate mode. In hibernate mode, the player will not
+     * update    * the manifest, will not fetch new segments.
+     */
+    hibernate (value : boolean ) : any ;
+    /**
      * Check if the manifest contains only audio-only content. If the player has
      * not loaded content, this will return <code>false</code>.
      * <p>
@@ -5237,7 +5242,7 @@ declare namespace shaka.extern.ManifestParser {
 }
 // Generated from /home/jobispo/dev/stv-shaka-player/externs/shaka/manifest_parser.js
 declare namespace shaka.extern.ManifestParser {
-  type PlayerInterface = { enableLowLatencyMode : ( ) => any , filter : (a : shaka.extern.Manifest ) => Promise < any > , getBandwidthEstimate : ( ) => number , isAutoLowLatencyMode : ( ) => boolean , isLowLatencyMode : ( ) => boolean , makeTextStreamsForClosedCaptions : (a : shaka.extern.Manifest ) => any , networkingEngine : shaka.net.NetworkingEngine , newDrmInfo : (a : shaka.extern.Stream ) => any , onError : (a : shaka.util.Error ) => any , onEvent : shaka.util.EventManager.ListenerType , onManifestUpdated : ( ) => any , onTimelineRegionAdded : (a : shaka.extern.TimelineRegionInfo ) => any , updateDuration : ( ) => any } ;
+  type PlayerInterface = { enableLowLatencyMode : ( ) => any , filter : (a : shaka.extern.Manifest ) => Promise < any > , getBandwidthEstimate : ( ) => number , isAutoLowLatencyMode : ( ) => boolean , isHibernated : ( ) => boolean , isLowLatencyMode : ( ) => boolean , makeTextStreamsForClosedCaptions : (a : shaka.extern.Manifest ) => any , networkingEngine : shaka.net.NetworkingEngine , newDrmInfo : (a : shaka.extern.Stream ) => any , onError : (a : shaka.util.Error ) => any , onEvent : shaka.util.EventManager.ListenerType , onManifestUpdated : ( ) => any , onTimelineRegionAdded : (a : shaka.extern.TimelineRegionInfo ) => any , updateDuration : ( ) => any } ;
 }
 // Generated from /home/jobispo/dev/stv-shaka-player/externs/shaka/mp4_parser.js
 declare namespace shaka.extern {

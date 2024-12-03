@@ -3240,6 +3240,12 @@ shaka.Player = class extends shaka.util.FakeEventTarget {
    */
   detach(keepAdManager) {}
   /**
+   * Sets the player to hibernate mode. In hibernate mode, the player will not
+   * update    * the manifest, will not fetch new segments.
+   * @param {boolean} value
+   */
+  hibernate(value) {}
+  /**
    * Unloads the currently playing stream, if any.
    * @param {boolean=} initializeMediaSource
    * @param {boolean=} keepAdManager

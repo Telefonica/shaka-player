@@ -128,7 +128,8 @@ shaka.extern.ManifestParser = class {
  *   updateDuration: function(),
  *   newDrmInfo: function(shaka.extern.Stream),
  *   onManifestUpdated: function(),
- *   getBandwidthEstimate: function():number
+ *   getBandwidthEstimate: function():number,
+ *   isHibernated: function():boolean
  * }}
  *
  * @description
@@ -167,6 +168,8 @@ shaka.extern.ManifestParser = class {
  *   Should be called when the manifest is updated.
  * @property {function():number} getBandwidthEstimate
  *   Get the estimated bandwidth in bits per second.
+ * @property {function():boolean} isHibernated
+ *  Get the hibernation state of the player.
  * @exportDoc
  */
 shaka.extern.ManifestParser.PlayerInterface;
